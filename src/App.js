@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 
 const baseHour = 8
-const durationOfWorkDay = 8
+const durationOfWorkDay = 9
+const workingDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", /*sunday*/]
 const localDayNames = {
   monday: "Pondělí",
   tuesday: "Úterý",
@@ -38,38 +39,11 @@ class UserTableRow extends Component {
 
 
 class TableHeaderWithHours extends Component {
-  constructor(props) {
-    super(props)
-
-    //this.state = {};
-    //this.click = this.click.bind(this);
-  }
-
-  /*click(e) {
-    let key = e.target.attributes.getNamedItem('data-key').value;
-    this.setState(prevState => ({
-      [key]: !prevState[key]
-    }));
-  }
-
-  click2(e, i) {
-    this.setState(prevState => ({
-      [i]: !prevState[i]
-    }));
-  }*/
 
   render() {
     const ths = this.props.hours.map(hour => (
       <th key={hour}>{hour}-{hour + 1}</th>
     ))
-
-    /*let ths = this.props.hours.map(hour => (
-      this.state[hour] ? // onClick={this.click}  onClick={(e) => {this.click2(e, hour);}}
-        <th className='red' key={hour} data-key={hour}>{hour}-{hour + 1}</th>
-        :
-        <th key={hour} data-key={hour}>{hour}-{hour + 1}</th>
-
-    ));*/
 
     return (
       <tr>
@@ -98,10 +72,6 @@ class DayGroup extends Component {
 }
 
 class Table extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   aggregateUserDataForDay(day) {
     return this.props.data.reduce((result, userObject) => {
       result[userObject.user] = userObject.data[day]
@@ -110,7 +80,7 @@ class Table extends Component {
   }
 
   render() {
-    const days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday"].map(day => (
+    const days = workingDays.map(day => (
         <DayGroup key={day} day={day} users={this.aggregateUserDataForDay(day)} />
     ))
 
@@ -127,7 +97,7 @@ class Table extends Component {
 
 class App extends Component {
   render() {
-    const hours = [8,9,10,11,12,13,14,15,16]
+    const hours = new Array(durationOfWorkDay).fill(0).map((v,idx) => baseHour + idx)
     const data = [
       {
         user: "katka",
