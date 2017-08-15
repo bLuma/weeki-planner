@@ -3,9 +3,18 @@ import './App.css';
 
 const baseHour = 8
 const durationOfWorkDay = 8
+const localDayNames = {
+  monday: "Pondělí",
+  tuesday: "Úterý",
+  wednesday: "Středa",
+  thursday: "Čtvrtek",
+  friday: "Pátek",
+  saturday: "Sobota",
+  sunday: "Neděle"
+}
 
 // props = {fn click, user, hour, state}
-const Cell = (props) => (
+const UserTableCell = (props) => (
   <td className={props.state} onClick={e => props.click(props)}>{props.state}</td>
 )
 
@@ -14,7 +23,7 @@ class UserTableRow extends Component {
   render() {
     const data = this.props.data || []
     const cells = data.map((state, idx) => (
-      <Cell key={idx} user={this.props.user} day={this.props.day} hour={baseHour + idx} state={state}/>
+      <UserTableCell key={idx} user={this.props.user} day={this.props.day} hour={baseHour + idx} state={state}/>
     ))
 
     return (
@@ -80,7 +89,7 @@ class DayGroup extends Component {
 
     return (
       <tbody>
-        <tr><th rowSpan={userRowsCount+2}>{this.props.day}</th></tr>
+        <tr><th rowSpan={userRowsCount+2}>{localDayNames[this.props.day]}</th></tr>
         {userRows}
         <tr></tr>
       </tbody>
@@ -88,7 +97,7 @@ class DayGroup extends Component {
   }
 }
 
-class Tabulka extends Component {
+class Table extends Component {
   constructor(props) {
     super(props)
   }
@@ -136,10 +145,9 @@ class App extends Component {
       }
     ]
 
-
     return (
       <div className="App">
-        <Tabulka hours={hours} data={data}/>
+        <Table hours={hours} data={data}/>
       </div>
     );
   }
