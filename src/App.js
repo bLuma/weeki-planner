@@ -19,7 +19,7 @@ class UserTableRow extends Component {
 
     return (
       <tr>
-        <td>{this.props.user}</td>
+        <th>{this.props.user}</th>
         {cells}
       </tr>
     )
@@ -80,7 +80,7 @@ class DayGroup extends Component {
 
     return (
       <tbody>
-        <tr><td rowSpan={userRowsCount+2}>{this.props.day}</td></tr>
+        <tr><th rowSpan={userRowsCount+2}>{this.props.day}</th></tr>
         {userRows}
         <tr></tr>
       </tbody>

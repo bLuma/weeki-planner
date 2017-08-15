@@ -2,27 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 table {
   border-collapse: collapse;
 }
@@ -31,21 +10,22 @@ table, tr, td, th {
   border: 1px solid black;
 }
 
+th, td {
+  padding: 2px;
+}
+
 th {
   width: 3em;
 }
 
-.red {
-  background-color: red;
-}
-
-
 .free {
   background-color: green;
 }
+
 .maybe {
   background-color: orange;
 }
+
 .occupied {
   background-color: red;
 }
