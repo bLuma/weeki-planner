@@ -38,3 +38,14 @@ th {
 .red {
   background-color: red;
 }
+
+
+.free {
+  background-color: green;
+}
+.maybe {
+  background-color: orange;
+}
+.occupied {
+  background-color: red;
+}
