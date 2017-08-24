@@ -35,6 +35,24 @@ th {
   background-color: red;
 }
 
+.unset.highlight {
+}
+
+.free.highlight {
+}
+
+.maybe.highlight {
+}
+
+.occupied.highlight {
+}
+
+.highlight {
+  font-weight: bold;
+  text-shadow: black 0 0 1ex;
+  color: white;
+}
+
 #controlPanel {
   line-height: 3em;
   display: flex;
@@ -65,3 +83,4 @@ th {
 .button:hover, #datepicker:hover {
   box-shadow: 0 0 4px black;
 }
+
