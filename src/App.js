@@ -1,5 +1,8 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import moment from 'moment'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css';
+import './App.css'
 
 const baseHour = 8
 const durationOfWorkDay = 9
@@ -56,8 +59,9 @@ class TableHeaderWithHours extends Component {
 
 class DayGroup extends Component {
   render() {
-    const userRowsCount = Object.keys(this.props.users).length
-    const userRows = Object.keys(this.props.users).map(user => (
+    const users = Object.keys(this.props.users)
+    const userRowsCount = users.length
+    const userRows = users.map(user => (
       <UserTableRow key={user} user={user} day={this.props.day} data={this.props.users[user]} />
     ))
 
@@ -95,6 +99,43 @@ class Table extends Component {
   }
 }
 
+class Button extends Component {
+  render() {
+    return (
+      <div className={this.props.action + " button"}>{this.props.action}</div>
+    )
+  }
+}
+
+class ControlPanel extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {date: moment()}
+    this.onChangeDate = this.onChangeDate.bind(this)
+  }
+
+  onChangeDate(selectedDate) {
+    this.setState({date: selectedDate})
+  }
+
+  render() {
+    return (
+      <div id="controlPanel">
+        <div className="flexflow">
+          Týden: <DatePicker id="datepicker" selected={this.state.date} onChange={this.onChangeDate} locale="cs-cz"/>
+        </div>
+        <div className="flexflow">
+          <Button action="remove"/>
+          <Button action="free"/>
+          <Button action="occupied"/>
+          <Button action="maybe"/>
+        </div>
+      </div>
+    )
+  }
+}
+
 class App extends Component {
   render() {
     const hours = new Array(durationOfWorkDay).fill(0).map((v,idx) => baseHour + idx)
@@ -117,6 +158,7 @@ class App extends Component {
 
     return (
       <div className="App">
+        <ControlPanel />
         <Table hours={hours} data={data}/>
       </div>
     );

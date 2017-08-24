@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  width: 40%;
 }
 
 table {
@@ -28,4 +29,35 @@ th {
 
 .occupied {
   background-color: red;
+}
+
+#controlPanel {
+  line-height: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flexflow {
+  display: flex;
+}
+
+#datepicker {
+  margin-left: 1ex;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10ex;
+  border: 1px solid black;
+  border-radius: 1ex;
+  height: 2em;
+  margin: 0.2ex;
+  cursor: pointer;
+}
+
+.button:hover, #datepicker:hover {
+  box-shadow: 0 0 4px black;
 }
