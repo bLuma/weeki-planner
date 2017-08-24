@@ -47,12 +47,11 @@ class ControlPanel extends Component {
 
 class App extends Component {
   render() {
-    const hours = new Array(common.durationOfWorkDay).fill(0).map((v,idx) => common.baseHour + idx)
     const data = [
       {
         user: "katka",
         data: {
-          monday: ["free", "free", "occupied", "maybe", "free", "free", "free", "free", "occupied"],
+          monday: ["free", "free", "occupied", "maybe", "unset", "unset", "free", "free", "occupied"],
           tuesday: ["free", "free", "occupied", "maybe", "free", "free", "free", "free", "maybe"]
         }
       },
@@ -68,7 +67,7 @@ class App extends Component {
     return (
       <div className="App">
         <ControlPanel />
-        <Table hours={hours} data={data}/>
+        <Table hours={common.workingHours} data={data}/>
       </div>
     );
   }

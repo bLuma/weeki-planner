@@ -1,6 +1,9 @@
 export const baseHour = 8
 export const durationOfWorkDay = 9
 export const workingDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", /*sunday*/]
+
+export const workingHours = new Array(durationOfWorkDay).fill(0).map((v,idx) => baseHour + idx)
+
 export const localDayNames = {
   monday: "Pondělí",
   tuesday: "Úterý",

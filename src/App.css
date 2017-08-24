@@ -19,6 +19,10 @@ th {
   width: 3em;
 }
 
+.unset {
+  background-color: gray;
+}
+
 .free {
   background-color: green;
 }

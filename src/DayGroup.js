@@ -9,7 +9,7 @@ export const UserTableCell = (props) => (
 // props = {user, day, data[...,...,...]}
 export class UserTableRow extends Component {
   render() {
-    const data = this.props.data || []
+    const data = this.props.data || common.workingHours.map(h => "unset")
     const cells = data.map((state, idx) => (
       <UserTableCell key={idx} user={this.props.user} day={this.props.day} hour={common.baseHour + idx} state={state}/>
     ))
