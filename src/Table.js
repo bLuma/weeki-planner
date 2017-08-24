@@ -29,7 +29,7 @@ export default class Table extends Component {
 
   render() {
     const days = common.workingDays.map(day => (
-        <DayGroup key={day} day={day} users={this.aggregateUserDataForDay(day)} />
+        <DayGroup key={day} day={day} users={this.aggregateUserDataForDay(day)} onTableClick={this.props.onTableClick}/>
     ))
 
     return (
