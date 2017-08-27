@@ -14,3 +14,10 @@ export const localDayNames = {
   saturday: "Sobota",
   sunday: "Neděle"
 }
+
+export const fontAwesomeIconsForStates = {
+  unset: "",
+  free: "check",
+  occupied: "times",
+  maybe: "question",
+}

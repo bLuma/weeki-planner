@@ -1,6 +1,13 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
 .App {
   text-align: center;
-  width: 40%;
+  max-width: 800px;
 }
 
 table {
@@ -13,6 +20,7 @@ table, tr, td, th {
 
 th, td {
   padding: 2px;
+  width: 80px;
 }
 
 th {
@@ -64,6 +72,10 @@ th {
   display: flex;
 }
 
+.flexaround {
+  justify-content: space-around;
+}
+
 #datepicker {
   margin-left: 1ex;
 }
@@ -82,5 +94,13 @@ th {
 
 .button:hover, #datepicker:hover {
   box-shadow: 0 0 4px black;
+}
+
+.editable {
+  cursor: pointer;
+}
+
+.pencilClass:hover {
+  color: white;
 }
 

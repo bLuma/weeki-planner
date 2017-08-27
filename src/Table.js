@@ -21,7 +21,7 @@ export class TableHeaderWithHours extends Component {
 
 export default class Table extends Component {
   aggregateUserDataForDay(day) {
-    return this.props.data.reduce((result, userObject) => {
+    return this.props.appState.data.reduce((result, userObject) => {
       result[userObject.user] = userObject.data[day]
       return result
     }, {})
@@ -29,13 +29,13 @@ export default class Table extends Component {
 
   render() {
     const days = common.workingDays.map(day => (
-        <DayGroup key={day} day={day} users={this.aggregateUserDataForDay(day)} onTableClick={this.props.onTableClick}/>
+        <DayGroup key={day} day={day} users={this.aggregateUserDataForDay(day)} appState={this.props.appState}/>
     ))
 
     return (
       <table>
         <thead>
-          <TableHeaderWithHours hours={this.props.hours}/>
+          <TableHeaderWithHours hours={this.props.appState.hours}/>
         </thead>
         {days}
       </table>

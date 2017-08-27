@@ -30,7 +30,8 @@ class App extends Component {
       week: moment(),
       user: "katka",
       action: "unset",
-      data: data
+      data: data,
+      editMode: true
     }
 
     this.onSelectedWeek = this.onSelectedWeek.bind(this)
@@ -71,10 +72,22 @@ class App extends Component {
 
 
   render() {
+    const appState = {
+      data: this.state.data,
+      action: this.state.action,
+      hours: common.workingHours,
+      editMode: this.state.editMode,
+      user: this.state.user,
+      week: this.state.week,
+      onSelectedAction: this.onSelectedAction,
+      onSelectedWeek: this.onSelectedWeek,
+      onTableClick: this.onTableClick,
+    }
+
     return (
       <div className="App">
-        <ControlPanel action={this.state.action} onSelectedWeek={this.onSelectedWeek} onSelectedAction={this.onSelectedAction}/>
-        <Table hours={common.workingHours} data={this.state.data} onTableClick={this.onTableClick}/>
+        <ControlPanel appState={appState} />
+        <Table appState={appState}/>
       </div>
     );
   }
