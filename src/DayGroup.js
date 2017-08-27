@@ -50,7 +50,7 @@ export class UserTableCell extends Component {
         <td className={className} onClick={onTableCellClick} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
           <div className="flexflow flexaround">
             <FontAwesome name="circle" className="invisible"/>
-            {!this.state.inNoteEditMode &&
+            {!this.state.inNoteEditMode && // TODO: fix this super ugly code
                 <FontAwesome name={faState}/>
             }
             {(!this.state.inNoteEditMode && comment !== undefined && !this.state.mouseEntered) && (
@@ -59,17 +59,13 @@ export class UserTableCell extends Component {
             {(!this.state.inNoteEditMode && comment === undefined && !this.state.mouseEntered) && (
                 <FontAwesome name="comment-o" className="invisible"/>
             )}
-            {(this.state.mouseEntered || this.state.inNoteEditMode) && (
-              <div>
-                {!this.state.inNoteEditMode && (
-                  <FontAwesome name="commenting-o" className="pencilClass" onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: true})}}/>
-                )}
-                {this.state.inNoteEditMode && (
-                  <div className="flexflow flexaround">
-                    <input type="text" ref={input => {this.textInput = input}} onKeyUp={this.onKeyUp} onClick={e => {e.stopPropagation()}}/>
-                    <FontAwesome name="check-circle" className="pencilClass" onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: false, mouseEntered: false}); console.log(this.textInput.value); }}/>
-                  </div>
-                )}
+            {((this.state.mouseEntered || this.state.inNoteEditMode) && !this.state.inNoteEditMode) && (
+              <FontAwesome name="commenting-o" className="pencilClass" onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: true})}}/>
+            )}
+            {((this.state.mouseEntered || this.state.inNoteEditMode) && this.state.inNoteEditMode) && (
+              <div className="flexflow flexaround">
+                <input type="text" ref={input => {this.textInput = input}} onKeyUp={this.onKeyUp} onClick={e => {e.stopPropagation()}}/>
+                <FontAwesome name="check-circle" className="pencilClass" onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: false, mouseEntered: false}); console.log(this.textInput.value); }}/>
               </div>
             )}
           </div>
