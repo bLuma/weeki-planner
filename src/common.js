@@ -16,7 +16,7 @@ export const localDayNames = {
 }
 
 export const fontAwesomeIconsForStates = {
-  unset: "",
+  unset: "circle-o",
   free: "check",
   occupied: "times",
   maybe: "question",

@@ -19,7 +19,8 @@ export class UserTableCell extends Component {
     }
 
     onMouseEnter() {
-      this.setState({mouseEntered: true})
+      if (this.isEditable())
+        this.setState({mouseEntered: true})
     }
 
     onMouseLeave() {
@@ -35,21 +36,33 @@ export class UserTableCell extends Component {
       }
     }
 
+    isEditable() {
+      return this.props.editable && this.props.appState.editMode
+    }
+
     render() {
-      const className = [this.props.state, this.props.appState.editMode ? "editable" : ""].join(" ")
-      const onClick = () => this.props.appState.onTableClick(this.props.day, this.props.hour)
-      const faState = common.fontAwesomeIconsForStates[this.props.state]
+      const onTableCellClick = () => this.props.appState.onTableClick(this.props.day, this.props.hour)
+      const [state, comment] = Array.isArray(this.props.state) ? this.props.state : [this.props.state]
+      const className = [state, this.isEditable() ? "editable" : ""].join(" ")
+      const faState = common.fontAwesomeIconsForStates[state]
 
       return (
-        <td className={className} onClick={onClick} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+        <td className={className} onClick={onTableCellClick} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
           <div className="flexflow flexaround">
+            <FontAwesome name="circle" className="invisible"/>
             {!this.state.inNoteEditMode &&
-              <FontAwesome name={faState}/>
+                <FontAwesome name={faState}/>
             }
+            {(!this.state.inNoteEditMode && comment !== undefined && !this.state.mouseEntered) && (
+                <FontAwesome name="comment-o"/>
+            )}
+            {(!this.state.inNoteEditMode && comment === undefined && !this.state.mouseEntered) && (
+                <FontAwesome name="comment-o" className="invisible"/>
+            )}
             {(this.state.mouseEntered || this.state.inNoteEditMode) && (
               <div>
                 {!this.state.inNoteEditMode && (
-                  <FontAwesome name="pencil-square-o" className="pencilClass" onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: true})}}/>
+                  <FontAwesome name="commenting-o" className="pencilClass" onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: true})}}/>
                 )}
                 {this.state.inNoteEditMode && (
                   <div className="flexflow flexaround">
@@ -70,9 +83,10 @@ export class UserTableCell extends Component {
 // props = {user, day, data[...,...,...]}
 export class UserTableRow extends Component {
   render() {
+    const editable = this.props.user === this.props.appState.user
     const data = this.props.data || common.emptySet.slice()
     const cells = data.map((state, idx) => (
-      <UserTableCell key={idx} user={this.props.user} day={this.props.day} hour={common.baseHour + idx} state={state} appState={this.props.appState}/>
+      <UserTableCell key={idx} user={this.props.user} day={this.props.day} hour={common.baseHour + idx} editable={editable} state={state} appState={this.props.appState}/>
     ))
 
     return (

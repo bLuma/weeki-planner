@@ -20,7 +20,7 @@ table, tr, td, th {
 
 th, td {
   padding: 2px;
-  width: 80px;
+  width: 120px;
 }
 
 th {
@@ -102,5 +102,9 @@ th {
 
 .pencilClass:hover {
   color: white;
+}
+
+.invisible {
+  visibility: hidden;
 }
 

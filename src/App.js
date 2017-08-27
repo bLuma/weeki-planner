@@ -13,14 +13,14 @@ class App extends Component {
       {
         user: "katka",
         data: {
-          monday: ["free", "free", "occupied", "maybe", "unset", "unset", "free", "free", "occupied"],
-          tuesday: ["free", "free", "occupied", "maybe", "free", "free", "free", "free", "maybe"]
+          monday: ["free", "free", ["occupied", "od půli"], ["maybe", "sudý týden"], "unset", "unset", "free", "free", "occupied"],
+          tuesday: ["free", "free", "occupied", "maybe", "free", "free", "free", "free", "maybe"],
         }
       },
       {
         user: "petra",
         data: {
-          monday: ["occupied", "occupied", "occupied", "maybe", "free", "free", "free", "free", "free"],
+          monday: [["occupied", "bububu"], "occupied", "occupied", "maybe", "free", "free", "free", "free", "free"],
           tuesday: ["free", "free", "occupied", "maybe", "free", "free", "free", "free", "free"]
         }
       }
