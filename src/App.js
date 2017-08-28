@@ -31,11 +31,13 @@ class App extends Component {
       user: "katka",
       action: "unset",
       data: data,
-      editMode: true
+      editMode: true,
+      editType: common.EDIT_TYPE_SL
     }
 
     this.onSelectedWeek = this.onSelectedWeek.bind(this)
     this.onSelectedAction = this.onSelectedAction.bind(this)
+    this.onSelectedEditType = this.onSelectedEditType.bind(this)
     this.onTableClick = this.onTableClick.bind(this)
   }
 
@@ -45,6 +47,10 @@ class App extends Component {
 
   onSelectedAction(action) {
     this.setState({action: action})
+  }
+
+  onSelectedEditType(editType) {
+    this.setState({editType: editType})
   }
 
   onTableClick(day, hour) {
@@ -77,11 +83,13 @@ class App extends Component {
       action: this.state.action,
       hours: common.workingHours,
       editMode: this.state.editMode,
+      editType: this.state.editType,
       user: this.state.user,
       week: this.state.week,
       onSelectedAction: this.onSelectedAction,
       onSelectedWeek: this.onSelectedWeek,
       onTableClick: this.onTableClick,
+      onSelectedEditType: this.onSelectedEditType,
     }
 
     return (

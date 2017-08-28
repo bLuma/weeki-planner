@@ -70,6 +70,7 @@ th {
 
 .flexflow {
   display: flex;
+  align-items: center;
 }
 
 .flexaround {
@@ -92,6 +93,11 @@ th {
   cursor: pointer;
 }
 
+.button.smallerButton {
+  background-color: gray;
+  width: 6ex;
+}
+
 .button:hover, #datepicker:hover {
   box-shadow: 0 0 4px black;
 }
@@ -108,3 +114,12 @@ th {
   visibility: hidden;
 }
 
+td input {
+  margin-right: 2px;
+}
+
+/*
+diagonal stripes
+background-color: gray;
+background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);
+*/
