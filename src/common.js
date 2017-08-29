@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import FontAwesome from 'react-fontawesome'
+//import React, { Component } from 'react'
+//import FontAwesome from 'react-fontawesome'
 
 export const baseHour = 8
 export const durationOfWorkDay = 9

@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import FontAwesome from 'react-fontawesome'
-import * as common from './common.js'
-import {Button, ButtonFA} from './Button.js'
+//import FontAwesome from 'react-fontawesome'
+import * as common from './common'
+import {Button, ButtonFA} from './Button'
 
 export default class ControlPanel extends Component {
   constructor(props) {

@@ -102,6 +102,10 @@ th {
   box-shadow: 0 0 4px black;
 }
 
+#datepicker:hover:disabled {
+  box-shadow: none;
+}
+
 .editable {
   cursor: pointer;
 }

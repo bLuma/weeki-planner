@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import * as common from './common.js'
+import * as common from './common'
 import Table from './Table'
 import ControlPanel from './ControlPanel'
 import moment from 'moment'

@@ -1,5 +1,5 @@
 import React, { Component }  from 'react'
-import * as common from './common.js'
+import * as common from './common'
 import FontAwesome from 'react-fontawesome'
 
 // props = {fn click, user, hour, state}
