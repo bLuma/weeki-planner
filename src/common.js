@@ -18,13 +18,6 @@ export const localDayNames = {
   sunday: "Neděle"
 }
 
-export const fontAwesomeIconsForStates = {
-  unset: (<FontAwesome name="circle-o"/>),
-  free: (<FontAwesome name="check"/>),
-  occupied: (<FontAwesome name="times"/>),
-  maybe: (<FontAwesome name="question"/>),
-}
-
 export const fontAwesomeNamesForStates = {
   unset: "circle-o",
   free: "check",
@@ -37,11 +30,11 @@ export const EDIT_TYPE_S = 's'
 export const EDIT_TYPE_L = 'l'
 export const EDIT_TYPE_SPECIFIC = 'specific'
 
-export const fontAwesomeIconsForEditTypes = {
+/*export const fontAwesomeIconsForEditTypes = {
   [EDIT_TYPE_SL]: 'S+L',
   [EDIT_TYPE_S]: 'S',
   [EDIT_TYPE_L]: 'L',
   [EDIT_TYPE_SPECIFIC]: 'Week',
-}
+}*/
 
 
