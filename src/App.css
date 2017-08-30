@@ -43,6 +43,19 @@ th {
   background-color: red;
 }
 
+.unset-striped {
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,.5) 5px, rgba(255,255,255,.5) 10px);
+}
+.free-striped {
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0,255,0,.5) 5px, rgba(0,255,0,.5) 10px);
+}
+.maybe-striped {
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,0,.5) 5px, rgba(255,255,0,.5) 10px);
+}
+.occupied-striped {
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,0,0,.5) 5px, rgba(255,0,0,.5) 10px);
+}
+
 .unset.highlight {
 }
 

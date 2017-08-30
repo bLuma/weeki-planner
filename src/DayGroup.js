@@ -10,12 +10,15 @@ export class UserTableCell extends Component {
 
       this.state = {
         mouseEntered: false,
-        inNoteEditMode: false
+        inNoteEditMode: false,
+        commentMouseEntered: false
       }
 
       this.onMouseEnter = this.onMouseEnter.bind(this)
       this.onMouseLeave = this.onMouseLeave.bind(this)
       this.onKeyUp = this.onKeyUp.bind(this)
+      this.onCommentMouseEnter = this.onCommentMouseEnter.bind(this)
+      this.onCommentMouseLeave = this.onCommentMouseLeave.bind(this)
     }
 
     onMouseEnter() {
@@ -25,6 +28,14 @@ export class UserTableCell extends Component {
 
     onMouseLeave() {
       this.setState({mouseEntered: false})
+    }
+
+    onCommentMouseEnter() {
+      this.setState({commentMouseEntered: true})
+    }
+
+    onCommentMouseLeave() {
+      this.setState({commentMouseEntered: false})
     }
 
     onKeyUp(e) {
@@ -43,8 +54,16 @@ export class UserTableCell extends Component {
     render() {
       const onTableCellClick = this.isEditable() && (() => this.props.appState.onTableClick(this.props.day, this.props.hour))
       const [state, comment] = Array.isArray(this.props.state) ? this.props.state : [this.props.state]
-      const className = [state, this.isEditable() ? "editable" : ""].join(" ")
-      const faState = common.fontAwesomeNamesForStates[state]
+
+      const mouseOverCommentButton = this.state.commentMouseEntered
+      const className = [
+        state,
+        this.isEditable() ? "editable" : "",
+        this.state.mouseEntered && !mouseOverCommentButton ? this.props.appState.action + "-striped" : ""
+      ].join(" ")
+
+      const visibleState = this.state.mouseEntered && !mouseOverCommentButton ? this.props.appState.action : state
+      const faState = common.fontAwesomeNamesForStates[visibleState]
 
       return (
         <td className={className} onClick={onTableCellClick} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
@@ -52,20 +71,23 @@ export class UserTableCell extends Component {
             <FontAwesome name="circle" className="invisible"/>
 
             {!this.state.inNoteEditMode && // TODO: fix this super ugly code
-                <FontAwesome name={faState}/>
+              <FontAwesome name={faState}/>
             }
 
             {(!this.state.inNoteEditMode && comment !== undefined && !this.state.mouseEntered) && (
-                <FontAwesome name="comment-o"/>
+              <FontAwesome name="comment-o"/>
             )}
             {(!this.state.inNoteEditMode && comment === undefined && !this.state.mouseEntered) && (
-                <FontAwesome name="comment-o" className="invisible"/>
+              <FontAwesome name="comment-o" className="invisible"/>
             )}
-            {((this.state.mouseEntered || this.state.inNoteEditMode) && !this.state.inNoteEditMode) && (
-              <FontAwesome name="commenting-o" className="pencilClass" onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: true})}}/>
+            {(!this.state.inNoteEditMode && this.state.mouseEntered) && (
+              <FontAwesome name="commenting-o" className="pencilClass" onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: true})}}
+                onMouseEnter={this.onCommentMouseEnter}
+                onMouseLeave={this.onCommentMouseLeave}
+                />
             )}
 
-            {((this.state.mouseEntered || this.state.inNoteEditMode) && this.state.inNoteEditMode) && (
+            {this.state.inNoteEditMode && (
               <div className="flexflow flexaround">
                 <input type="text" ref={input => {this.textInput = input}} onKeyUp={this.onKeyUp} onClick={e => {e.stopPropagation()}}/>
                 <FontAwesome name="check-circle" className="pencilClass" onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: false, mouseEntered: false}); console.log(this.textInput.value); }}/>
@@ -96,6 +118,8 @@ export class UserTableRow extends Component {
     )
   }
 }
+
+
 
 export default class DayGroup extends Component {
   render() {
