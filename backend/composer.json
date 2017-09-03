@@ -1,0 +1,14 @@
+{
+    "name": "bluma/weeki-planner-backend",
+    "description": "Weeki Planner API backend",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Roman Diviš",
+            "email": "divisak@gmail.com"
+        }
+    ],
+    "require": {
+        "dibi/dibi": "^3.0"
+    }
+}
