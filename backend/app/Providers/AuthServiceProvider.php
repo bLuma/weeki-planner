@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Users;
+use App\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -32,7 +32,7 @@ class AuthServiceProvider extends ServiceProvider
 
         $this->app['auth']->viaRequest('api', function ($request) {
             if ($request->input('api_key')) {
-                return Users::where('api_key', $request->input('api_key'))->first();
+                return User::where('api_key', $request->input('api_key'))->first();
             }
         });
     }

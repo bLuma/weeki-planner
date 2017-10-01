@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-use App\Users;
+use App\User;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -26,12 +26,12 @@ class UsersController extends Controller
       'password' => 'required'
      ]);
 
-     $user = Users::where('name', $request->input('name'))->first();
+     $user = User::where('name', $request->input('name'))->first();
      //return response()->json(["a" => Hash::make($request->input('password'))]);
 
      if($user != null && Hash::check($request->input('password'), $user->password)){
          $apikey = base64_encode(str_random(40));
-         Users::where('name', $request->input('name'))->update(['api_key' => "$apikey"]);;
+         User::where('name', $request->input('name'))->update(['api_key' => "$apikey"]);;
 
          return response()->json(['status' => 'success', 'api_key' => $apikey]);
      }else{

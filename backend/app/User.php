@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
-class Users extends Model implements AuthenticatableContract, AuthorizableContract
+class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
     use Authenticatable, Authorizable;
 
@@ -29,4 +29,8 @@ class Users extends Model implements AuthenticatableContract, AuthorizableContra
     protected $hidden = [
         'password', 'api_key'
     ];
+
+    function calendar() {
+      return $this->hasMany('App\Calendar', 'user');
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Calendar;
 
 class CalendarController extends Controller
 {
@@ -18,8 +19,10 @@ class CalendarController extends Controller
 
     public function req(Request $request)
     {
-      return response()->json(["woho" => "wooo"]);
-     }
+        $out = $request->user()->calendar()->get();
+        return response($out);
+//      return response()->json(["woho" => "wooo"]);
+    }
 
     //
 }
