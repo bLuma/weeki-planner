@@ -10,7 +10,7 @@ class App extends Component {
     super(props)
 
     const data = [
-      {
+/*      {
         user: "katka",
         data: {
           monday: ["free", "free", ["occupied", "od půli"], ["maybe", "sudý týden"], "unset", "unset", "free", "free", "occupied"],
@@ -23,12 +23,12 @@ class App extends Component {
           monday: [["occupied", "bububu"], "occupied", "occupied", "maybe", "free", "free", "free", "free", "free"],
           tuesday: ["free", "free", "occupied", "maybe", "free", "free", "free", "free", "free"]
         }
-      }
+      }*/
     ]
 
     this.state = {
       week: moment(),
-      user: "katka",
+      user: "admin",
       action: "unset",
       data: data,
       editMode: true,
@@ -39,6 +39,16 @@ class App extends Component {
     this.onSelectedAction = this.onSelectedAction.bind(this)
     this.onSelectedEditType = this.onSelectedEditType.bind(this)
     this.onTableClick = this.onTableClick.bind(this)
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:3000/backend/api/v1/calendar?api_key=admin').then(
+      response => response.json()
+    ).then(response => {
+      this.setState({data: response})
+    }).catch(error => {
+      console.log("err " + error);
+    })
   }
 
   onSelectedWeek(week) {
@@ -61,7 +71,7 @@ class App extends Component {
       }
 
       const hourIndex = hour - common.baseHour
-      userDataObject.data[day][hourIndex] = prevState.action
+      userDataObject.data[day][hourIndex].state = prevState.action
 
       return prevState
     })

@@ -3,6 +3,7 @@
   "author": "Roman Diviš",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost/",
   "dependencies": {
     "react": "^15.4.2",
     "react-datepicker": "^0.53.0",

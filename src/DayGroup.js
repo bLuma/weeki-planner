@@ -53,7 +53,8 @@ export class UserTableCell extends Component {
 
     render() {
       const onTableCellClick = this.isEditable() && (() => this.props.appState.onTableClick(this.props.day, this.props.hour))
-      const [state, comment] = Array.isArray(this.props.state) ? this.props.state : [this.props.state]
+      //const [state, comment] = Array.isArray(this.props.state) ? this.props.state : [this.props.state]
+      const {state, comment} = this.props.state
 
       const mouseOverCommentButton = this.state.commentMouseEntered
       const className = [
@@ -74,10 +75,10 @@ export class UserTableCell extends Component {
               <FontAwesome name={faState}/>
             }
 
-            {(!this.state.inNoteEditMode && comment !== undefined && !this.state.mouseEntered) && (
+            {(!this.state.inNoteEditMode && (comment !== undefined && comment !== "") && !this.state.mouseEntered) && (
               <FontAwesome name="comment-o"/>
             )}
-            {(!this.state.inNoteEditMode && comment === undefined && !this.state.mouseEntered) && (
+            {(!this.state.inNoteEditMode && (comment === undefined || comment === "") && !this.state.mouseEntered) && (
               <FontAwesome name="comment-o" className="invisible"/>
             )}
             {(!this.state.inNoteEditMode && this.state.mouseEntered) && (

@@ -33,7 +33,7 @@ class CalendarsTableSeeder extends Seeder {
 
     for($day = 0; $day < 365; $day++) {
       for ($hour = 0; $hour < 8; $hour++) {
-        if (rand() % 100 < 10) {
+        if (rand() % 100 < 30) {
           Calendar::create([
             'user' => $adminId,
             'day' => $dt->getTimestamp(),
@@ -43,9 +43,8 @@ class CalendarsTableSeeder extends Seeder {
             'comment' => ''
           ]);
         }
-
-        $dt->add(new DateInterval('P1D'));
       }
+      $dt->add(new DateInterval('P1D'));
     }
   }
 
