@@ -9,25 +9,25 @@ class UsersTableSeeder extends Seeder {
     User::create([
       'name' => 'admin',
       'password' => Hash::make('admin'),
-      'api_key' => Hash::make('1')
+      'api_key' => 'admin'
     ]);
 
     User::create([
       'name' => 'user1',
       'password' => Hash::make('user1'),
-      'api_key' => Hash::make('2')
+      'api_key' => 'user1'
     ]);
 
     User::create([
       'name' => 'user2',
       'password' => Hash::make('user2'),
-      'api_key' => Hash::make('3')
+      'api_key' => 'user2'
     ]);
 
     User::create([
       'name' => 'user3',
       'password' => Hash::make('user3'),
-      'api_key' => Hash::make('4')
+      'api_key' => 'user3'
     ]);
   }
 }

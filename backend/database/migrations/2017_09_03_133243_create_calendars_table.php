@@ -22,11 +22,15 @@ class CreateCalendarsTable extends Migration
 
             $table->char('week', 1);
             $table->integer('day')->unsigned();
+            $table->integer('hour')->unsigned();
             $table->char('state', 1);
             $table->string('comment');
+
+            $table->primary(['user', 'week', 'day', 'hour']);
             // user
             // week - s/l
             // day - m/t/w/th/fr/sa/su
+            // hour
             // state - n/oc/may/free
             // comment - t
         });
