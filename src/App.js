@@ -32,7 +32,8 @@ class App extends Component {
       action: "unset",
       data: data,
       editMode: true,
-      editType: common.EDIT_TYPE_SL
+      editType: common.EDIT_TYPE_SL,
+      apikey: 'admin'
     }
 
     this.onSelectedWeek = this.onSelectedWeek.bind(this)
@@ -42,7 +43,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000/backend/api/v1/calendar?api_key=admin').then(
+    fetch('http://localhost:3000/backend/api/v1/calendar?api_key=' + this.state.apikey).then(
       response => response.json()
     ).then(response => {
       this.setState({data: response})

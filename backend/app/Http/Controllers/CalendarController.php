@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Calendar;
@@ -57,71 +58,92 @@ class CalendarController extends Controller
       throw new \Exception('Unknown dayOfWeek ' . $dayOfWeek);
     }
 
-    public function req(Request $request)
+    public function calendar(Request $request)
     {
         $timestamp = $request->input('timestamp', time());
-        $hoursToGet = $request->input('hours', 8);
+        $hoursToGet = $request->input('hours', 9);
 
-        $user = $request->user();
+        //$user = $request->user();
         if ($request->has('user')) {
-          $user = User::where('name', $request->input('user'))->first();
+          $user = [User::where('name', $request->input('user'))->first()];
+        } else {
+          $user = User::whereExists(function ($query) {
+            $query->select(DB::raw(1))
+                  ->from('calendars')
+                  ->whereRaw('calendars.user = users.id');
+          })->get();
         }
 
-        // date: 0 sunday, 1 monday, ...
-        // after fixing: 0 monday, 1 tuesday, ...
-        $dayOfWeek = $this->fixDayOfWeek(date("w", $timestamp));
-
-        // week number - starts with monday
-        $weekOfYear = date("W", $timestamp);
-        $oddOrEvenWeek = $weekOfYear % 2 == 0 ? 'e' : 'o';
-
-        $dateTime = new DateTime();
-        $dateTime->setTimestamp($timestamp);
-        $dateTime->setTime(0, 0);
-
-        $mondayDateTime = clone $dateTime;
-        $mondayDateTime->sub(new DateInterval('P'.$dayOfWeek.'D'));
-
-        $nextMondayDateTime = clone $mondayDateTime;
-        $nextMondayDateTime->add(new DateInterval('P7D'));
-
-        /*$check = date(DATE_ATOM, $timestamp);
-        echo "<pre>";
-        var_dump([
-            "dayOfWeek" => $dayOfWeek,
-            "weekOfYear" => $weekOfYear,
-            "oddOrEvenWeek" => $oddOrEvenWeek,
-            "check" => $check,
-            "dateTime" => $dateTime,
-            "mondayDateTime" => $mondayDateTime,
-            "nextMondayDateTime" => $nextMondayDateTime
-        ]);*/
+        if (empty($user) || $user[0] == null) {
+          return response()->json([]);
+        }
 
         $result = [];
-        for ($weekDay = 0; $weekDay < 7; $weekDay++) {
-          $hourArray = [];
-          for ($hour = 0; $hour < $hoursToGet; $hour++) {
-            $hourArray[$hour] = ["state" => $this->fixState("u")];
-          }
-
-          $result[$this->getWeekdayName($weekDay)] = $hourArray;
+        foreach($user as $u) {
+          $result[] = [
+            "user" => $u->name,
+            "data" => $this->getUserCalendar($u, $timestamp, $hoursToGet)
+          ];
         }
 
-        $baseCalendar = $user->calendar()->where('week', $oddOrEvenWeek)->get();
-        foreach ($baseCalendar as $record) {
-          $result[$this->getWeekdayName($record->day)][$record->hour] = ["state" => $this->fixState($record->state), "comment" => $record->comment, "type" => "base"];
-        }
-
-        $customCalendar = $user->calendar()->where('week', 'c')->whereBetween('day', [$mondayDateTime->getTimestamp(), $nextMondayDateTime->getTimestamp() - 1])->get();
-        foreach ($customCalendar as $record) {
-          $result[$this->getWeekdayName($record->day)][$record->hour] = ["state" => $this->fixState($record->state), "comment" => $record->comment, "type" => "custom"];
-        }
-
-        $userData = [
-          "user" => $user->name,
-          "data" => $result
-        ];
-        //print_r($result);
-        return response()->json([$userData]);
+        return response()->json($result);
     }
+
+    private function getUserCalendar($user, $timestamp, $hoursToGet) {
+      // date: 0 sunday, 1 monday, ...
+      // after fixing: 0 monday, 1 tuesday, ...
+      $dayOfWeek = $this->fixDayOfWeek(date("w", $timestamp));
+
+      // week number - starts with monday
+      $weekOfYear = date("W", $timestamp);
+      $oddOrEvenWeek = $weekOfYear % 2 == 0 ? 'e' : 'o';
+
+      $dateTime = new DateTime();
+      $dateTime->setTimestamp($timestamp);
+      $dateTime->setTime(0, 0);
+
+      $mondayDateTime = clone $dateTime;
+      $mondayDateTime->sub(new DateInterval('P'.$dayOfWeek.'D'));
+
+      $nextMondayDateTime = clone $mondayDateTime;
+      $nextMondayDateTime->add(new DateInterval('P7D'));
+
+      /*$check = date(DATE_ATOM, $timestamp);
+      echo "<pre>";
+      var_dump([
+          "dayOfWeek" => $dayOfWeek,
+          "weekOfYear" => $weekOfYear,
+          "oddOrEvenWeek" => $oddOrEvenWeek,
+          "check" => $check,
+          "dateTime" => $dateTime,
+          "mondayDateTime" => $mondayDateTime,
+          "nextMondayDateTime" => $nextMondayDateTime
+      ]);*/
+
+      $result = [];
+      for ($weekDay = 0; $weekDay < 7; $weekDay++) {
+        $hourArray = [];
+        for ($hour = 0; $hour < $hoursToGet; $hour++) {
+          $hourArray[$hour] = ["state" => $this->fixState("u")];
+        }
+
+        $result[$this->getWeekdayName($weekDay)] = $hourArray;
+      }
+
+      $baseCalendar = $user->calendar()->where('week', $oddOrEvenWeek)->get();
+      foreach ($baseCalendar as $record) {
+        $result[$this->getWeekdayName($record->day)][$record->hour] = ["state" => $this->fixState($record->state), "comment" => $record->comment, "type" => "base"];
+      }
+
+      $customCalendar = $user->calendar()->where('week', 'c')->whereBetween('day', [$mondayDateTime->getTimestamp(), $nextMondayDateTime->getTimestamp() - 1])->get();
+      foreach ($customCalendar as $record) {
+        $result[$this->getWeekdayName($record->day)][$record->hour] = ["state" => $this->fixState($record->state), "comment" => $record->comment, "type" => "custom"];
+      }
+
+      return $result;
+    }
+
+  public function calendarUpdate(Request $request) {
+    return response()->json([]);
+  }
 }

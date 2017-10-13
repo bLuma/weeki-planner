@@ -6,7 +6,7 @@ export const durationOfWorkDay = 9
 export const workingDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", /*sunday*/]
 
 export const workingHours = new Array(durationOfWorkDay).fill(0).map((v,idx) => baseHour + idx)
-export const emptySet = workingHours.map(() => ({"state":"unset","comment":""}))
+export const emptySet = workingHours.map(() => ({"state": "unset", "comment": ""}))
 
 export const localDayNames = {
   monday: "Pondělí",

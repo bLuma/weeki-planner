@@ -8,15 +8,21 @@ class CalendarsTableSeeder extends Seeder {
 
   public function run() {
     $adminId = User::where('name', 'admin')->first()->id;
-    $user1 = User::where('name', 'user1')->first()->id;
+    $this->seedUser($adminId);
 
+    $user1 = User::where('name', 'user1')->first()->id;
+    $this->seedUser($user1);
+  }
+
+  private function seedUser($uid) {
     $states = ['f', 'm', 'o'];
+    $hoursToGenerate = 9;
 
     for($day = 0; $day < 5; $day++) {
-      for ($hour = 0; $hour < 8; $hour++) {
+      for ($hour = 0; $hour < $hoursToGenerate; $hour++) {
         for ($week = 0; $week < rand() % 2 + 1; $week++) {
           Calendar::create([
-            'user' => $adminId,
+            'user' => $uid,
             'day' => $day,
             'hour' => $hour,
             'week' => ($week == 0 ? 'o' : 'e'),
@@ -32,10 +38,10 @@ class CalendarsTableSeeder extends Seeder {
     $dt->setTime(0, 0);
 
     for($day = 0; $day < 365; $day++) {
-      for ($hour = 0; $hour < 8; $hour++) {
+      for ($hour = 0; $hour < $hoursToGenerate; $hour++) {
         if (rand() % 100 < 30) {
           Calendar::create([
-            'user' => $adminId,
+            'user' => $uid,
             'day' => $dt->getTimestamp(),
             'hour' => $hour,
             'week' => 'c',
