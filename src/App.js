@@ -40,6 +40,7 @@ class App extends Component {
     this.onSelectedAction = this.onSelectedAction.bind(this)
     this.onSelectedEditType = this.onSelectedEditType.bind(this)
     this.onTableClick = this.onTableClick.bind(this)
+    this.onTableCommentUpdate = this.onTableCommentUpdate.bind(this)
   }
 
   componentDidMount() {
@@ -74,6 +75,35 @@ class App extends Component {
       const hourIndex = hour - common.baseHour
       userDataObject.data[day][hourIndex].state = prevState.action
 
+      let fetchuri = 'http://localhost:3000/backend/api/v1/calendar-update?api_key=' + prevState.apikey
+      fetchuri += '&week=' + encodeURIComponent(prevState.editType)
+      fetchuri += '&day=' + encodeURIComponent(day)
+      fetchuri += '&hour=' + encodeURIComponent(hourIndex)
+      fetchuri += '&state=' + encodeURIComponent(prevState.action)
+      fetch(fetchuri)
+
+      return prevState
+    })
+  }
+
+  onTableCommentUpdate(day, hour, comment) {
+    this.setState((prevState) => {
+      const userDataObject = this.findUserDataObject(prevState.data, prevState.user)
+      if (userDataObject.data[day] === undefined) {
+        userDataObject.data[day] = common.emptySet.slice()
+      }
+
+      const hourIndex = hour - common.baseHour
+      userDataObject.data[day][hourIndex].comment = comment
+
+      let fetchuri = 'http://localhost:3000/backend/api/v1/calendar-update?api_key=' + prevState.apikey
+      fetchuri += '&week=' + encodeURIComponent(prevState.editType)
+      fetchuri += '&day=' + encodeURIComponent(day)
+      fetchuri += '&hour=' + encodeURIComponent(hourIndex)
+      fetchuri += '&state=' + encodeURIComponent(userDataObject.data[day][hourIndex].state)
+      fetchuri += '&comment=' + encodeURIComponent(comment)
+      fetch(fetchuri)
+
       return prevState
     })
   }
@@ -100,6 +130,7 @@ class App extends Component {
       onSelectedAction: this.onSelectedAction,
       onSelectedWeek: this.onSelectedWeek,
       onTableClick: this.onTableClick,
+      onTableCommentUpdate: this.onTableCommentUpdate,
       onSelectedEditType: this.onSelectedEditType,
     }
 

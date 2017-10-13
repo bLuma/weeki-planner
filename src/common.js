@@ -25,10 +25,10 @@ export const fontAwesomeNamesForStates = {
   maybe: "question",
 }
 
-export const EDIT_TYPE_SL = 'sl'
-export const EDIT_TYPE_S = 's'
-export const EDIT_TYPE_L = 'l'
-export const EDIT_TYPE_SPECIFIC = 'specific'
+export const EDIT_TYPE_SL = 'eo'
+export const EDIT_TYPE_S = 'e'
+export const EDIT_TYPE_L = 'o'
+export const EDIT_TYPE_SPECIFIC = 'c'
 
 /*export const fontAwesomeIconsForEditTypes = {
   [EDIT_TYPE_SL]: 'S+L',

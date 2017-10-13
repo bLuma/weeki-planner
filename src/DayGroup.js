@@ -42,6 +42,8 @@ export class UserTableCell extends Component {
       //console.log(e.key + " " + e.keyCode + " " + e.charCode + " " + e.which);
       if (e.key === 'Enter') {
         this.setState({inNoteEditMode: false})
+        console.log(this.textInput.value);
+        this.props.appState.onTableCommentUpdate(this.props.day, this.props.hour, this.textInput.value);
       } else if (e.key === 'Escape') {
         this.setState({inNoteEditMode: false})
       }
@@ -90,8 +92,8 @@ export class UserTableCell extends Component {
 
             {this.state.inNoteEditMode && (
               <div className="flexflow flexaround">
-                <input type="text" ref={input => {this.textInput = input; if (input) input.focus()}} onKeyUp={this.onKeyUp} onClick={e => {e.stopPropagation()}}/>
-                <FontAwesome name="check-circle" className="pencilClass" onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: false, mouseEntered: false}); console.log(this.textInput.value); }}/>
+                <input type="text" placeholder={comment} ref={input => {this.textInput = input; if (input) input.focus()}} onKeyUp={this.onKeyUp} onClick={e => {e.stopPropagation()}}/>
+                <FontAwesome name="check-circle" className="pencilClass" onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: false, mouseEntered: false}); console.log(this.textInput.value); this.props.appState.onTableCommentUpdate(this.props.day, this.props.hour, this.textInput.value); }}/>
               </div>
             )}
           </div>
