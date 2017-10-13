@@ -24,7 +24,7 @@ class CalendarController extends Controller
     {
         $timestamp = $request->input('timestamp', time());
         $hoursToGet = $request->input('hours', 9);
-        $onlyBaseCalendar = $request->input('onlybase', true);
+        $onlyBaseCalendar = $request->input('onlybase', false);
 
         if ($request->has('user')) {
             $users = [User::where('name', $request->input('user'))->first()];
@@ -86,7 +86,7 @@ class CalendarController extends Controller
         for ($weekDay = 0; $weekDay < 7; $weekDay++) {
             $hourArray = [];
             for ($hour = 0; $hour < $hoursToGet; $hour++) {
-                $hourArray[$hour] = ["state" => $this->fixState("u")];
+                $hourArray[$hour] = ["state" => $this->fixState("u"), "type" => "base"];
             }
 
             $result[$this->getWeekdayName($weekDay)] = $hourArray;

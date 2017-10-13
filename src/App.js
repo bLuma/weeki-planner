@@ -9,23 +9,7 @@ class App extends Component {
   constructor(props) {
     super(props)
 
-    const data = [
-/*      {
-        user: "katka",
-        data: {
-          monday: ["free", "free", ["occupied", "od půli"], ["maybe", "sudý týden"], "unset", "unset", "free", "free", "occupied"],
-          tuesday: ["free", "free", "occupied", "maybe", "free", "free", "free", "free", "maybe"],
-        }
-      },
-      {
-        user: "petra",
-        data: {
-          monday: [["occupied", "bububu"], "occupied", "occupied", "maybe", "free", "free", "free", "free", "free"],
-          tuesday: ["free", "free", "occupied", "maybe", "free", "free", "free", "free", "free"]
-        }
-      }*/
-    ]
-
+    const data = []
     this.state = {
       week: moment(),
       user: "admin",
@@ -55,6 +39,15 @@ class App extends Component {
 
   onSelectedWeek(week) {
     this.setState({week: week})
+
+    console.log(week.unix());
+    fetch('http://localhost:3000/backend/api/v1/calendar?api_key=' + this.state.apikey + '&timestamp=' + week.unix()).then(
+      response => response.json()
+    ).then(response => {
+      this.setState({data: response})
+    }).catch(error => {
+      console.log("err " + error);
+    })
   }
 
   onSelectedAction(action) {
