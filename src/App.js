@@ -3,6 +3,7 @@ import * as common from './common'
 import Table from './Table'
 import ControlPanel from './ControlPanel'
 import moment from 'moment'
+import Api from './api'
 import './App.css'
 
 class App extends Component {
@@ -25,16 +26,15 @@ class App extends Component {
     this.onSelectedEditType = this.onSelectedEditType.bind(this)
     this.onTableClick = this.onTableClick.bind(this)
     this.onTableCommentUpdate = this.onTableCommentUpdate.bind(this)
+    this.api = new Api();
   }
 
   componentDidMount() {
-    fetch('http://localhost:3000/backend/api/v1/calendar?api_key=' + this.state.apikey).then(
-      response => response.json()
-    ).then(response => {
-      this.setState({data: response})
-    }).catch(error => {
-      console.log("err " + error);
-    })
+    this.api.getCalendar(
+      this.state,
+      (r) => this.setState({data: r}),
+      () => console.log("err")
+    )
   }
 
   onSelectedWeek(week) {
@@ -55,7 +55,24 @@ class App extends Component {
   }
 
   onSelectedEditType(editType) {
-    this.setState({editType: editType})
+    this.setState(prevState => {
+      if (editType === common.EDIT_TYPE_TURN_OFF) {
+        prevState.editMode = false
+        prevState.editType = common.EDIT_TYPE_SL
+      } else if (editType === common.EDIT_TYPE_TURN_ON){
+          prevState.editMode = true
+          editType = common.EDIT_TYPE_SL
+      }
+      Object.assign(prevState, {editType: editType})
+
+      this.api.getCalendar(
+        prevState,
+        (r) => this.setState({data: r}),
+        () => console.log("err")
+      )
+
+      return prevState
+    })
   }
 
   onTableClick(day, hour) {

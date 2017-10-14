@@ -25,6 +25,7 @@ class CalendarController extends Controller
         $timestamp = $request->input('timestamp', time());
         $hoursToGet = $request->input('hours', 9);
         $onlyBaseCalendar = $request->input('onlybase', false);
+        $specificWeek = $request->input('week', false);
 
         if ($request->has('user')) {
             $users = [User::where('name', $request->input('user'))->first()];
@@ -44,22 +45,26 @@ class CalendarController extends Controller
         foreach($users as $user) {
             $result[] = [
                 "user" => $user->name,
-                "data" => $this->getUserCalendar($user, $timestamp, $hoursToGet, $onlyBaseCalendar)
+                "data" => $this->getUserCalendar($user, $timestamp, $hoursToGet, $onlyBaseCalendar, $specificWeek)
             ];
         }
 
         return response()->json($result);
     }
 
-    private function getUserCalendar($user, $timestamp, $hoursToGet, $onlyBaseCalendar) {
+    private function getUserCalendar($user, $timestamp, $hoursToGet, $onlyBaseCalendar, $specificWeek) {
         // date: 0 sunday, 1 monday, ...
         // after fixing: 0 monday, 1 tuesday, ...
         $dayOfWeek = $this->fixDayOfWeek(date("w", $timestamp));
 
         // week number - starts with monday
         $weekOfYear = date("W", $timestamp);
-        $oddOrEvenWeek = $weekOfYear % 2 == 0 ? 'e' : 'o';
-
+        if (in_array($specificWeek, ["e", "o"])) {
+            $oddOrEvenWeek = $specificWeek;
+            $onlyBaseCalendar = true;
+        } else {
+            $oddOrEvenWeek = $weekOfYear % 2 == 0 ? 'e' : 'o';
+        }
         $dateTime = new DateTime();
         $dateTime->setTimestamp($timestamp);
         $dateTime->setTime(0, 0);

@@ -34,6 +34,8 @@ export default class ControlPanel extends Component {
     return (
       <div id="controlPanel">
         <div className="flexflow">
+          {!this.props.appState.editMode && <Button action={common.EDIT_TYPE_TURN_ON} {...editTypeButtonProps}>edit</Button>}
+          {this.props.appState.editMode && <Button action={common.EDIT_TYPE_TURN_OFF} {...editTypeButtonProps}>end</Button>}
           {this.props.appState.editMode && <Button action={common.EDIT_TYPE_SL} {...editTypeButtonProps}>S&L</Button>}
           {this.props.appState.editMode && <Button action={common.EDIT_TYPE_S} {...editTypeButtonProps}>S</Button>}
           {this.props.appState.editMode && <Button action={common.EDIT_TYPE_L} {...editTypeButtonProps}>L</Button>}
