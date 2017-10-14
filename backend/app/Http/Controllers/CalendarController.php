@@ -23,6 +23,8 @@ class CalendarController extends Controller
     public function calendar(Request $request)
     {
         $timestamp = $request->input('timestamp', time());
+        if ($timestamp == 0)
+            $timestamp = time();
         $hoursToGet = $request->input('hours', 9);
         $onlyBaseCalendar = $request->input('onlybase', false);
         $specificWeek = $request->input('week', false);
@@ -30,11 +32,11 @@ class CalendarController extends Controller
         if ($request->has('user')) {
             $users = [User::where('name', $request->input('user'))->first()];
         } else {
-            $users = User::whereExists(function ($query) {
+            $users = /*User::whereExists(function ($query) {
                 $query->select(DB::raw(1))
                     ->from('calendars')
                     ->whereRaw('calendars.user = users.id');
-            })->get();
+            })->get();*/ User::all();
         }
 
         if (empty($users) || $users[0] == null) {
@@ -45,7 +47,8 @@ class CalendarController extends Controller
         foreach($users as $user) {
             $result[] = [
                 "user" => $user->name,
-                "data" => $this->getUserCalendar($user, $timestamp, $hoursToGet, $onlyBaseCalendar, $specificWeek)
+                "data" => $this->getUserCalendar($user, $timestamp, $hoursToGet, $onlyBaseCalendar, $specificWeek),
+                "date" => date(DATE_ATOM, $timestamp)
             ];
         }
 
@@ -105,7 +108,13 @@ class CalendarController extends Controller
         if (!$onlyBaseCalendar) {
             $customCalendar = $user->calendar()->where('week', 'c')->whereBetween('day', [$mondayDateTime->getTimestamp(), $nextMondayDateTime->getTimestamp() - 1])->get();
             foreach ($customCalendar as $record) {
-                $result[$this->getWeekdayName($record->day)][$record->hour] = ["state" => $this->fixState($record->state), "comment" => $record->comment, "type" => "custom"];
+                $result[$this->getWeekdayName($record->day)][$record->hour] = [
+                  "state" => $this->fixState($record->state),
+                  "comment" => $record->comment,
+                  "type" => "custom",
+                  "override" => $record->day,
+                  "base" => $result[$this->getWeekdayName($record->day)][$record->hour]
+                ];
             }
         }
 
@@ -150,6 +159,9 @@ class CalendarController extends Controller
   }
 
   private function getWeekdayIndex($dayOfWeek) {
+      if (is_numeric($dayOfWeek) && $dayOfWeek >= 0 && $dayOfWeek <= 6)
+          return $dayOfWeek;
+
       switch ($dayOfWeek) {
         case "monday": return 0;
         case "tuesday": return 1;
@@ -166,7 +178,8 @@ class CalendarController extends Controller
   public function calendarUpdate(Request $request) {
       $week = $request->input('week');
       $day = $request->input('day');
-      $day = $this->getWeekdayIndex($day);
+      if ($week != "c")
+          $day = $this->getWeekdayIndex($day);
       $hour = $request->input('hour');
       $state = $request->input('state');
       if (strlen($state) > 1) {
@@ -196,20 +209,22 @@ class CalendarController extends Controller
   }
 
   private function deleteAndCreateCalendarEntry($entry, $user) {
-      $calendar = Calendar::where([
-        'week' => $entry['week'],
-        'day' => $entry['day'],
-        'hour' => $entry['hour'],
-        'user' => $user->id
+      Calendar::where([
+          'week' => $entry['week'],
+          'day' => $entry['day'],
+          'hour' => $entry['hour'],
+          'user' => $user->id
       ])->delete();
 
-      Calendar::create([
-        'week' => $entry['week'],
-        'day' => $entry['day'],
-        'hour' => $entry['hour'],
-        'user' => $user->id,
-        'state' => $entry['state'],
-        'comment' => $entry['comment']
-      ]);
+      if ($entry['state'] != "u") {
+          Calendar::create([
+              'week' => $entry['week'],
+              'day' => $entry['day'],
+              'hour' => $entry['hour'],
+              'user' => $user->id,
+              'state' => $entry['state'],
+              'comment' => $entry['comment']
+          ]);
+      }
   }
 }

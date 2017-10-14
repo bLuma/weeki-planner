@@ -19,13 +19,37 @@ export default class Api {
       state.apikey,
       {
         hours: common.durationOfWorkDay,
-        week: state.editType === common.EDIT_TYPE_SL ? common.EDIT_TYPE_S : (state.editType === common.EDIT_TYPE_S || state.editType === common.EDIT_TYPE_L ? state.editType : false),
-        timestamp: !state.editMode || state.editType === common.EDIT_TYPE_SPECIFIC ? state.week.unix() : 0
+        week: state.editType === common.EDIT_TYPE_SL ? '' : (state.editType === common.EDIT_TYPE_S || state.editType === common.EDIT_TYPE_L ? state.editType : false),
+        timestamp: !state.editMode || state.editType === common.EDIT_TYPE_SPECIFIC ? state.week.unix() : 0,
+        //onlybase: state.editMode && state.editType !== common.EDIT_TYPE_SPECIFIC ? 'true' : 'false'
       }
     )
 
     fetch(url).then(
       response => response.json()
     ).then(success).catch(fail)
+  }
+
+  updateAction(state, day, hour, action, comment = "") {
+    const dayOfWeek = state.week.day()
+    const firstDayOfWeek = state.week.subtract(dayOfWeek - 1, 'days').hours(0).minutes(0).seconds(0)
+    const specificDay = firstDayOfWeek.add(common.workingDays.indexOf(day), 'days')
+    console.log("indexOf: " + common.workingDays.indexOf(day) + " specificDay: " +specificDay.format())
+
+    const url = this.constructUrl(
+      "calendar-update",
+      state.apikey,
+      {
+        week: state.editType,
+        day: state.editType === common.EDIT_TYPE_SPECIFIC ? specificDay.unix() : day,
+        hour: hour,
+        state: action,
+        comment: comment
+      }
+    )
+
+    fetch(url)/*.then(
+      response => response.json()
+    ).then(success).catch(fail)*/
   }
 }

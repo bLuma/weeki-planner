@@ -109,7 +109,7 @@ export class UserTableCell extends Component {
 export class UserTableRow extends Component {
   render() {
     const editable = this.props.user === this.props.appState.user
-    const data = this.props.data || common.emptySet.slice()
+    const data = Array.from(this.props.data) || common.emptySet.slice()
     const cells = data.map((state, idx) => (
       <UserTableCell key={idx} user={this.props.user} day={this.props.day} hour={common.baseHour + idx} editable={editable} state={state} appState={this.props.appState}/>
     ))

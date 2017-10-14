@@ -11,8 +11,11 @@ class App extends Component {
     super(props)
 
     const data = []
+    const startDate = moment()
+    startDate.utcOffset(0)
+
     this.state = {
-      week: moment(),
+      week: startDate,
       user: "admin",
       action: "unset",
       data: data,
@@ -33,20 +36,24 @@ class App extends Component {
     this.api.getCalendar(
       this.state,
       (r) => this.setState({data: r}),
-      () => console.log("err")
+      (e) => console.log("err " + e)
     )
   }
 
   onSelectedWeek(week) {
-    this.setState({week: week})
+    this.setState(state => {
+      week.utcOffset(0)
+      state.week = week
+      console.log(week + " " + week.unix());
+      console.log(week.format());
 
-    console.log(week.unix());
-    fetch('http://localhost:3000/backend/api/v1/calendar?api_key=' + this.state.apikey + '&timestamp=' + week.unix()).then(
-      response => response.json()
-    ).then(response => {
-      this.setState({data: response})
-    }).catch(error => {
-      console.log("err " + error);
+      this.api.getCalendar(
+        state,
+        (r) => {this.setState({data: r}); console.log(r[0].date)},
+        (e) => console.log("err " + e)
+      )
+
+      return state
     })
   }
 
@@ -60,15 +67,15 @@ class App extends Component {
         prevState.editMode = false
         prevState.editType = common.EDIT_TYPE_SL
       } else if (editType === common.EDIT_TYPE_TURN_ON){
-          prevState.editMode = true
-          editType = common.EDIT_TYPE_SL
+        prevState.editMode = true
+        editType = common.EDIT_TYPE_SL
       }
       Object.assign(prevState, {editType: editType})
 
       this.api.getCalendar(
         prevState,
         (r) => this.setState({data: r}),
-        () => console.log("err")
+        (e) => console.log("err " + e)
       )
 
       return prevState
@@ -83,14 +90,23 @@ class App extends Component {
       }
 
       const hourIndex = hour - common.baseHour
-      userDataObject.data[day][hourIndex].state = prevState.action
+      const action = prevState.action
 
-      let fetchuri = 'http://localhost:3000/backend/api/v1/calendar-update?api_key=' + prevState.apikey
-      fetchuri += '&week=' + encodeURIComponent(prevState.editType)
-      fetchuri += '&day=' + encodeURIComponent(day)
-      fetchuri += '&hour=' + encodeURIComponent(hourIndex)
-      fetchuri += '&state=' + encodeURIComponent(prevState.action)
-      fetch(fetchuri)
+      if (prevState.editType === common.EDIT_TYPE_SPECIFIC && action !== "unset") {
+        userDataObject.data[day][hourIndex].base = userDataObject.data[day][hourIndex]
+        userDataObject.data[day][hourIndex].override = prevState.week.unix()
+        userDataObject.data[day][hourIndex].type = "custom"
+      }
+
+      if (prevState.editType === common.EDIT_TYPE_SPECIFIC && action === "unset") {
+        userDataObject.data[day][hourIndex] = userDataObject.data[day][hourIndex].base
+      } else {
+        userDataObject.data[day][hourIndex].state = prevState.action
+      }
+
+
+
+      this.api.updateAction(prevState, day, hourIndex, prevState.action)
 
       return prevState
     })
@@ -106,13 +122,7 @@ class App extends Component {
       const hourIndex = hour - common.baseHour
       userDataObject.data[day][hourIndex].comment = comment
 
-      let fetchuri = 'http://localhost:3000/backend/api/v1/calendar-update?api_key=' + prevState.apikey
-      fetchuri += '&week=' + encodeURIComponent(prevState.editType)
-      fetchuri += '&day=' + encodeURIComponent(day)
-      fetchuri += '&hour=' + encodeURIComponent(hourIndex)
-      fetchuri += '&state=' + encodeURIComponent(userDataObject.data[day][hourIndex].state)
-      fetchuri += '&comment=' + encodeURIComponent(comment)
-      fetch(fetchuri)
+      this.api.updateAction(prevState, day, hourIndex, userDataObject.data[day][hourIndex].state, comment)
 
       return prevState
     })
