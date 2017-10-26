@@ -50,7 +50,8 @@ export class UserTableCell extends Component {
     }
 
     isEditable() {
-      return this.props.editable && this.props.appState.editMode
+      return this.props.editable && this.props.appState.editMode &&
+        (this.props.appState.editType !== common.EDIT_TYPE_SPECIFIC || (this.props.state.type === "custom" || this.props.appState.action !== "unset"))
     }
 
     render() {

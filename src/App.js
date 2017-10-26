@@ -98,7 +98,7 @@ class App extends Component {
         userDataObject.data[day][hourIndex].type = "custom"
       }
 
-      if (prevState.editType === common.EDIT_TYPE_SPECIFIC && action === "unset") {
+      if (prevState.editType === common.EDIT_TYPE_SPECIFIC && action === "unset" && userDataObject.data[day][hourIndex].base !== undefined) {
         userDataObject.data[day][hourIndex] = userDataObject.data[day][hourIndex].base
       } else {
         userDataObject.data[day][hourIndex].state = prevState.action

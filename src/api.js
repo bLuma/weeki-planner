@@ -22,6 +22,7 @@ export default class Api {
         week: state.editType === common.EDIT_TYPE_SL ? '' : (state.editType === common.EDIT_TYPE_S || state.editType === common.EDIT_TYPE_L ? state.editType : false),
         timestamp: !state.editMode || state.editType === common.EDIT_TYPE_SPECIFIC ? state.week.unix() : 0,
         //onlybase: state.editMode && state.editType !== common.EDIT_TYPE_SPECIFIC ? 'true' : 'false'
+        onlymycalendar: state.editMode
       }
     )
 

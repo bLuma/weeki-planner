@@ -31,6 +31,8 @@ class CalendarController extends Controller
 
         if ($request->has('user')) {
             $users = [User::where('name', $request->input('user'))->first()];
+        } else if ($request->has('onlymycalendar') && $request->input('onlymycalendar') == "true") {
+            $users = [$request->user()];
         } else {
             $users = /*User::whereExists(function ($query) {
                 $query->select(DB::raw(1))
