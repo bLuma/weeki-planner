@@ -35,7 +35,7 @@ class App extends Component {
   componentDidMount() {
     this.api.getCalendar(
       this.state,
-      (r) => this.setState({data: r}),
+      (r) => this.setState({ data: r }),
       (e) => console.log("err " + e)
     )
   }
@@ -49,7 +49,7 @@ class App extends Component {
 
       this.api.getCalendar(
         state,
-        (r) => {this.setState({data: r}); console.log(r[0].date)},
+        (r) => { this.setState({ data: r }); console.log(r[0].date) },
         (e) => console.log("err " + e)
       )
 
@@ -58,7 +58,7 @@ class App extends Component {
   }
 
   onSelectedAction(action) {
-    this.setState({action: action})
+    this.setState({ action: action })
   }
 
   onSelectedEditType(editType) {
@@ -66,15 +66,15 @@ class App extends Component {
       if (editType === common.EDIT_TYPE_TURN_OFF) {
         prevState.editMode = false
         prevState.editType = common.EDIT_TYPE_SL
-      } else if (editType === common.EDIT_TYPE_TURN_ON){
+      } else if (editType === common.EDIT_TYPE_TURN_ON) {
         prevState.editMode = true
         editType = common.EDIT_TYPE_SL
       }
-      Object.assign(prevState, {editType: editType})
+      Object.assign(prevState, { editType: editType })
 
       this.api.getCalendar(
         prevState,
-        (r) => this.setState({data: r}),
+        (r) => this.setState({ data: r }),
         (e) => console.log("err " + e)
       )
 
@@ -157,7 +157,7 @@ class App extends Component {
     return (
       <div className="App">
         <ControlPanel appState={appState} />
-        <Table appState={appState}/>
+        <Table appState={appState} />
       </div>
     );
   }

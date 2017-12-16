@@ -2,20 +2,42 @@ import * as common from './common'
 
 export default class Api {
 
+  login(username, password, callback) {
+    const url = this.constructUrl(
+      'user',
+      undefined,
+      {
+        name: username,
+        password: password
+      }
+    )
+
+    fetch(url).then(
+      response => response.json()
+    ).then(
+      response => {
+        if (!response.status || response.status !== 'success')
+          return
+
+        callback(username, response.api_key)
+      }
+      )
+  }
+
   constructUrl(action, apikey, params = {}) {
     let url = common.apiurl
     url += encodeURIComponent(action)
-    url += "?"
-    url += "api_key=" + encodeURIComponent(apikey)
+    url += '?'
+    url += 'api_key=' + encodeURIComponent(apikey)
     for (const i in params) {
-      url += "&" + i + "=" + encodeURIComponent(params[i])
+      url += '&' + i + '=' + encodeURIComponent(params[i])
     }
     return url
   }
 
   getCalendar(state, success, fail) {
     const url = this.constructUrl(
-      "calendar",
+      'calendar',
       state.apikey,
       {
         hours: common.durationOfWorkDay,
@@ -31,14 +53,14 @@ export default class Api {
     ).then(success).catch(fail)
   }
 
-  updateAction(state, day, hour, action, comment = "") {
+  updateAction(state, day, hour, action, comment = '') {
     const dayOfWeek = state.week.day()
     const firstDayOfWeek = state.week.subtract(dayOfWeek - 1, 'days').hours(0).minutes(0).seconds(0)
     const specificDay = firstDayOfWeek.add(common.workingDays.indexOf(day), 'days')
-    console.log("indexOf: " + common.workingDays.indexOf(day) + " specificDay: " +specificDay.format())
+    console.log('indexOf: ' + common.workingDays.indexOf(day) + ' specificDay: ' + specificDay.format())
 
     const url = this.constructUrl(
-      "calendar-update",
+      'calendar-update',
       state.apikey,
       {
         week: state.editType,
