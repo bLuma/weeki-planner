@@ -16,12 +16,12 @@ class App extends Component {
 
     this.state = {
       week: startDate,
-      user: "admin",
+      user: props.user,
       action: "unset",
       data: data,
       editMode: true,
       editType: common.EDIT_TYPE_SL,
-      apikey: 'admin'
+      apikey: props.apikey
     }
 
     this.onSelectedWeek = this.onSelectedWeek.bind(this)
