@@ -2,7 +2,18 @@ import * as common from './common'
 
 export default class Api {
 
-  login(username, password, callback) {
+  constructUrl(action, apikey, params = {}) {
+    let url = common.apiurl
+    url += encodeURIComponent(action)
+    url += '?'
+    url += 'api_key=' + encodeURIComponent(apikey)
+    for (const i in params) {
+      url += '&' + i + '=' + encodeURIComponent(params[i])
+    }
+    return url
+  }
+
+  login(username, password, successCallback, failCallback) {
     const url = this.constructUrl(
       'user',
       undefined,
@@ -16,23 +27,14 @@ export default class Api {
       response => response.json()
     ).then(
       response => {
-        if (!response.status || response.status !== 'success')
+        if (!response.status || response.status !== 'success') {
+          failCallback()
           return
-
-        callback(username, response.api_key)
+        }
+          
+        successCallback(username, response.api_key)
       }
-      )
-  }
-
-  constructUrl(action, apikey, params = {}) {
-    let url = common.apiurl
-    url += encodeURIComponent(action)
-    url += '?'
-    url += 'api_key=' + encodeURIComponent(apikey)
-    for (const i in params) {
-      url += '&' + i + '=' + encodeURIComponent(params[i])
-    }
-    return url
+    )
   }
 
   getCalendar(state, success, fail) {
