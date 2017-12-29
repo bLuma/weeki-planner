@@ -19,7 +19,7 @@ class App extends Component {
       user: props.user,
       action: "unset",
       data: data,
-      editMode: true,
+      editMode: false,
       editType: common.EDIT_TYPE_SL,
       apikey: props.apikey
     }

@@ -157,3 +157,22 @@ background-image: repeating-linear-gradient(45deg, transparent, transparent 35px
 .loginform .button {
   margin-top: 2em;
 }
+#failedlogin {
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  opacity: 0; 
+  visibility: hidden;
+  color: black;
+}
+#failedlogin.show {
+  opacity: 1;
+  visibility: visible;
+  color: red;
+}
+.button-login {
+  background: #333;
+  color:white;
+  align-self: flex-end;
+}
