@@ -1,9 +1,4 @@
 import React from 'react'
-//import {
-//  BrowserRouter as Router,
-//  Route,
-//  Link
-//} from 'react-router-dom'
 import App from './App'
 import Api from './api';
 
@@ -13,6 +8,7 @@ class Login extends React.PureComponent {
 
     this.api = new Api()
     this.onSubmit = this.onSubmit.bind(this)
+    this.onKeyPress = this.onKeyPress.bind(this)
   }
 
   onSubmit() {
@@ -22,12 +18,20 @@ class Login extends React.PureComponent {
     this.api.login(username, password, this.props.setUserCallback)
   }
 
+  onKeyPress(evt) {
+    if (evt.key === 'Enter') {
+      this.onSubmit()
+    }
+  }
+
   render() {
     return (
-      <div>
-        <input type="text" name="login" ref={input => this.login = input} />
-        <input type="password" name="password" ref={input => this.password = input} />
-        <input type="submit" onClick={this.onSubmit} />
+      <div className="loginform">
+        <label htmlFor="login">Login:</label>
+        <input type="text" id="login" name="login" ref={input => this.login = input} onKeyPress={this.onKeyPress} />
+        <label htmlFor="password">Password:</label>
+        <input type="password" id="password" name="password" ref={input => this.password = input} onKeyPress={this.onKeyPress} />
+        <input type="submit" className="button" value="Login" onClick={this.onSubmit} />
       </div>
     )
   }
@@ -56,8 +60,10 @@ class AppRouter extends React.PureComponent {
   render() {
     return (
       <div>
-        {this.state.user === undefined && <Login setUserCallback={this.setUser} />}
-        {this.state.user !== undefined && <App user={this.state.user} apikey={this.state.apikey} />}
+        {this.state.user === undefined ?
+          <Login setUserCallback={this.setUser} />
+         :
+          <App user={this.state.user} apikey={this.state.apikey} />}
       </div>
     )
   }
