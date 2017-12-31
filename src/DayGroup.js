@@ -141,9 +141,9 @@ export default class DayGroup extends Component {
 
     return (
       <tbody>
-        <tr><th rowSpan={userRowsCount+2} className="paddingth">{common.localDayNames[this.props.day]}</th></tr>
+        <tr><th rowSpan={userRowsCount+1} className="paddingth">{common.localDayNames[this.props.day]}</th></tr>
         {userRows}
-        <tr></tr>
+        <tr><td colSpan={common.emptySet.length+2}></td></tr>
       </tbody>
     )
   }

@@ -6,7 +6,7 @@ export class TableHeaderWithHours extends Component {
 
   render() {
     const ths = this.props.hours.map(hour => (
-      <th key={hour}>{hour}-{hour + 1}</th>
+      <th key={hour}>{hour}&ndash;{hour + 1}</th>
     ))
 
     return (

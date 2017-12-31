@@ -22,18 +22,19 @@ th {
   border: 1px solid black;
 }
 
-th,
-td {
-  /* padding: 2px; */
-  /*width: 120px;*/
-}
+/* tbody::after {
+  content: '';
+  display:table-row;
+  background: white;
+  height: 3px;
+} */
 
 th {
   width: 3em;
 }
 
 .unset {
-  background-color: gray;
+  background-color: #aaa;
 }
 
 .free {
