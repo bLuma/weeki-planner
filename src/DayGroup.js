@@ -1,6 +1,7 @@
 import React, { Component }  from 'react'
 import * as common from './common'
 import FontAwesome from 'react-fontawesome'
+import 'moment/locale/cs'
 
 // props = {fn click, user, hour, state}
 export class UserTableCell extends Component {
