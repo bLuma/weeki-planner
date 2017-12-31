@@ -96,15 +96,15 @@ class App extends Component {
         userDataObject.data[day][hourIndex].base = userDataObject.data[day][hourIndex]
         userDataObject.data[day][hourIndex].override = prevState.week.unix()
         userDataObject.data[day][hourIndex].type = "custom"
+        userDataObject.data[day][hourIndex].comment = ""
       }
 
       if (prevState.editType === common.EDIT_TYPE_SPECIFIC && action === "unset" && userDataObject.data[day][hourIndex].base !== undefined) {
         userDataObject.data[day][hourIndex] = userDataObject.data[day][hourIndex].base
       } else {
         userDataObject.data[day][hourIndex].state = prevState.action
+        userDataObject.data[day][hourIndex].comment = ""
       }
-
-
 
       this.api.updateAction(prevState, day, hourIndex, prevState.action)
 

@@ -14,6 +14,10 @@ class Login extends React.PureComponent {
     this.hideFailedLogin = this.hideFailedLogin.bind(this)
   }
 
+  componentDidMount() {
+    this.login.focus()
+  }
+
   onSubmit() {
     const username = this.login.value
     const password = this.password.value

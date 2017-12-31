@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   display: flex;
@@ -7,20 +8,24 @@ html, body {
 
 .App {
   text-align: center;
-  max-width: 800px;
+  max-width: 880px;
 }
 
 table {
   border-collapse: collapse;
 }
 
-table, tr, td, th {
+table,
+tr,
+td,
+th {
   border: 1px solid black;
 }
 
-th, td {
-  padding: 2px;
-  width: 120px;
+th,
+td {
+  /* padding: 2px; */
+  /*width: 120px;*/
 }
 
 th {
@@ -44,19 +49,23 @@ th {
 }
 
 .unset-striped {
-  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,255,.5) 5px, rgba(255,255,255,.5) 10px);
-}
-.free-striped {
-  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0,255,0,.5) 5px, rgba(0,255,0,.5) 10px);
-}
-.maybe-striped {
-  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,255,0,.5) 5px, rgba(255,255,0,.5) 10px);
-}
-.occupied-striped {
-  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255,0,0,.5) 5px, rgba(255,0,0,.5) 10px);
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 255, 255, .5) 5px, rgba(255, 255, 255, .5) 10px);
 }
 
-.unset.highlight {
+.free-striped {
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0, 255, 0, .5) 5px, rgba(0, 255, 0, .5) 10px);
+}
+
+.maybe-striped {
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 255, 0, .5) 5px, rgba(255, 255, 0, .5) 10px);
+}
+
+.occupied-striped {
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 0, 0, .5) 5px, rgba(255, 0, 0, .5) 10px);
+}
+
+
+/* .unset.highlight {
 }
 
 .free.highlight {
@@ -66,7 +75,7 @@ th {
 }
 
 .occupied.highlight {
-}
+} */
 
 .highlight {
   font-weight: bold;
@@ -111,7 +120,8 @@ th {
   width: 6ex;
 }
 
-.button:hover, #datepicker:hover {
+.button:hover,
+#datepicker:hover {
   box-shadow: 0 0 4px black;
 }
 
@@ -131,8 +141,17 @@ th {
   visibility: hidden;
 }
 
+td {
+  min-width: 72px;
+}
+
 td input {
   margin-right: 2px;
+}
+
+.paddingth {
+  padding-left: 2ex;
+  padding-right: 2ex;
 }
 
 /*
@@ -154,25 +173,29 @@ background-image: repeating-linear-gradient(45deg, transparent, transparent 35px
   margin: 1ex;
   width: 20em;
 }
+
 .loginform .button {
   margin-top: 2em;
 }
+
 #failedlogin {
   -webkit-transition: 0.3s;
   -moz-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
-  opacity: 0; 
+  opacity: 0;
   visibility: hidden;
   color: black;
 }
+
 #failedlogin.show {
   opacity: 1;
   visibility: visible;
   color: red;
 }
+
 .button-login {
   background: #333;
-  color:white;
+  color: white;
   align-self: flex-end;
 }

@@ -5,6 +5,8 @@ export const baseHour = 8
 export const durationOfWorkDay = 9
 export const workingDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", /*sunday*/]
 
+export const momentLocale = 'en-gb'
+
 export const apiurl = "http://localhost:3000/backend/api/v1/"
 
 export const workingHours = new Array(durationOfWorkDay).fill(0).map((v,idx) => baseHour + idx)

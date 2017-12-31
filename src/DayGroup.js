@@ -55,8 +55,7 @@ export class UserTableCell extends Component {
     }
 
     render() {
-      const onTableCellClick = this.isEditable() && (() => this.props.appState.onTableClick(this.props.day, this.props.hour))
-      //const [state, comment] = Array.isArray(this.props.state) ? this.props.state : [this.props.state]
+      const onTableCellClick = this.isEditable() ? (() => this.props.appState.onTableClick(this.props.day, this.props.hour)) : () => {}
       const {state, comment, type} = this.props.state
 
       const mouseOverCommentButton = this.state.commentMouseEntered
@@ -72,26 +71,32 @@ export class UserTableCell extends Component {
       return (
         <td className={className} onClick={onTableCellClick} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
           <div className="flexflow flexaround">
+            {/* base/custom indicator */}
             {type === 'base' && <FontAwesome name="circle" className="invisible"/>}
             {type === 'custom' && <FontAwesome name="circle"/>}
 
+            {/* state indicator */}
             {!this.state.inNoteEditMode && // TODO: fix this super ugly code
               <FontAwesome name={faState}/>
             }
 
+            {/* comment indicator */}
             {(!this.state.inNoteEditMode && (comment !== undefined && comment !== "") && !this.state.mouseEntered) && (
-              <FontAwesome name="comment-o"/>
+              <FontAwesome name="comment-o" title={comment} />
             )}
             {(!this.state.inNoteEditMode && (comment === undefined || comment === "") && !this.state.mouseEntered) && (
               <FontAwesome name="comment-o" className="invisible"/>
             )}
+
+            {/* make comment indicator (mouse hover) */}
             {(!this.state.inNoteEditMode && this.state.mouseEntered) && (
-              <FontAwesome name="commenting-o" className="pencilClass" onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: true})}}
+              <FontAwesome name="commenting-o" className="pencilClass" title={comment} onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: true})}}
                 onMouseEnter={this.onCommentMouseEnter}
                 onMouseLeave={this.onCommentMouseLeave}
                 />
             )}
 
+            {/* commenting mode */}
             {this.state.inNoteEditMode && (
               <div className="flexflow flexaround">
                 <input type="text" placeholder={comment} ref={input => {this.textInput = input; if (input) input.focus()}} onKeyUp={this.onKeyUp} onClick={e => {e.stopPropagation()}}/>
@@ -117,7 +122,7 @@ export class UserTableRow extends Component {
 
     return (
       <tr>
-        <th>{this.props.user}</th>
+        <th className="paddingth">{this.props.user}</th>
         {cells}
       </tr>
     )
@@ -136,7 +141,7 @@ export default class DayGroup extends Component {
 
     return (
       <tbody>
-        <tr><th rowSpan={userRowsCount+2}>{common.localDayNames[this.props.day]}</th></tr>
+        <tr><th rowSpan={userRowsCount+2} className="paddingth">{common.localDayNames[this.props.day]}</th></tr>
         {userRows}
         <tr></tr>
       </tbody>
