@@ -1,6 +1,8 @@
 import React from 'react'
 import App from './App'
-import Login from './Login';
+import Login from './Login'
+import PropTypes from 'prop-types'
+import Api from './api'
 
 class AppRouter extends React.PureComponent {
 
@@ -12,7 +14,12 @@ class AppRouter extends React.PureComponent {
       apikey: undefined
     }
 
+    this.api = new Api()
     this.setUser = this.setUser.bind(this)
+
+    if (this.props.getCachedCredentials() !== null && this.props.getCachedCredentials() !== '') {
+      this.api.validateUser(this.props.getCachedCredentials(), this.setUser)
+    }
   }
 
   setUser(user, apikey) {
@@ -20,6 +27,8 @@ class AppRouter extends React.PureComponent {
       user: user,
       apikey: apikey
     })
+
+    this.props.setCachedCredentials(apikey)
   }
 
   render() {
@@ -32,6 +41,11 @@ class AppRouter extends React.PureComponent {
       </div>
     )
   }
+}
+
+AppRouter.propTypes = {
+  setCachedCredentials: PropTypes.func,
+  getCachedCredentials: PropTypes.func
 }
 
 export default AppRouter;

@@ -17,7 +17,8 @@ $app->get('/', function () use ($app) {
 
 $app->group(['prefix' => 'api/v1'], function($app)
 {
-	$app->get('user', 'UserController@authenticate');
+  $app->get('user', 'UserController@authenticate');
+  $app->get('validate-user', 'UserController@validateUser');
   $app->get('calendar', 'CalendarController@calendar');
   $app->get('calendar-update', 'CalendarController@calendarUpdate');
 });

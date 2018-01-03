@@ -31,6 +31,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
 
     function calendar() {
-      return $this->hasMany('App\Calendar', 'user');
+        return $this->hasMany('App\Calendar', 'user');
     }
 }
