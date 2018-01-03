@@ -20,11 +20,13 @@ class CalendarController extends Controller
     {
         $this->middleware('auth');
     }
+
     public function calendar(Request $request)
     {
         $timestamp = $request->input('timestamp', time());
-        if ($timestamp == 0)
+        if ($timestamp == 0) {
             $timestamp = time();
+        }
         $hoursToGet = $request->input('hours', 9);
         $onlyBaseCalendar = $request->input('onlybase', false);
         $specificWeek = $request->input('week', false);
@@ -34,11 +36,7 @@ class CalendarController extends Controller
         } else if ($request->has('onlymycalendar') && $request->input('onlymycalendar') == "true") {
             $users = [$request->user()];
         } else {
-            $users = /*User::whereExists(function ($query) {
-                $query->select(DB::raw(1))
-                    ->from('calendars')
-                    ->whereRaw('calendars.user = users.id');
-            })->get();*/ User::all();
+            $users = User::all();
         }
 
         if (empty($users) || $users[0] == null) {
@@ -158,75 +156,77 @@ class CalendarController extends Controller
         }
 
         throw new \Exception('Unknown dayOfWeek ' . $dayOfWeek);
-  }
+    }
 
-  private function getWeekdayIndex($dayOfWeek) {
-      if (is_numeric($dayOfWeek) && $dayOfWeek >= 0 && $dayOfWeek <= 6)
-          return $dayOfWeek;
+    private function getWeekdayIndex($dayOfWeek) {
+        if (is_numeric($dayOfWeek) && $dayOfWeek >= 0 && $dayOfWeek <= 6) {
+            return $dayOfWeek;
+        }
 
-      switch ($dayOfWeek) {
-        case "monday": return 0;
-        case "tuesday": return 1;
-        case "wednesday": return 2;
-        case "thursday": return 3;
-        case "friday": return 4;
-        case "saturday": return 5;
-        case "sunday": return 6;
-      }
+        switch ($dayOfWeek) {
+            case "monday": return 0;
+            case "tuesday": return 1;
+            case "wednesday": return 2;
+            case "thursday": return 3;
+            case "friday": return 4;
+            case "saturday": return 5;
+            case "sunday": return 6;
+        }
 
-      throw new \Exception('Unknown dayOfWeek ' . $dayOfWeek);
-  }
+        throw new \Exception('Unknown dayOfWeek ' . $dayOfWeek);
+    }
 
-  public function calendarUpdate(Request $request) {
-      $week = $request->input('week');
-      $day = $request->input('day');
-      if ($week != "c")
-          $day = $this->getWeekdayIndex($day);
-      $hour = $request->input('hour');
-      $state = $request->input('state');
-      if (strlen($state) > 1) {
-          $state = $state[0];
-      }
-      $comment = $request->input('comment', '');
-      $user = $request->user();
+    public function calendarUpdate(Request $request) {
+        $week = $request->input('week');
+        $day = $request->input('day');
+        if ($week != "c") {
+            $day = $this->getWeekdayIndex($day);
+        }
+        $hour = $request->input('hour');
+        $state = $request->input('state');
+        if (strlen($state) > 1) {
+            $state = $state[0];
+        }
+        $comment = $request->input('comment', '');
+        $user = $request->user();
 
-      $entry = [
-        'week' => $week,
-        'day' => $day,
-        'hour' => $hour,
-        'state' => $state,
-        'comment' => $comment
-      ];
+        $entry = [
+            'week' => $week,
+            'day' => $day,
+            'hour' => $hour,
+            'state' => $state,
+            'comment' => $comment
+        ];
 
-      if ($week == 'eo' || $week == 'oe') {
-          $entry['week'] = 'e';
-          $this->deleteAndCreateCalendarEntry($entry, $user);
-          $entry['week'] = 'o';
-          $this->deleteAndCreateCalendarEntry($entry, $user);
-      } else {
-          $this->deleteAndCreateCalendarEntry($entry, $user);
-      }
+        if ($week == 'eo' || $week == 'oe') {
+            $entry['week'] = 'e';
+            $this->deleteAndCreateCalendarEntry($entry, $user);
+            $entry['week'] = 'o';
+            $this->deleteAndCreateCalendarEntry($entry, $user);
+        } else {
+            $this->deleteAndCreateCalendarEntry($entry, $user);
+        }
 
-      return response()->json([]);
-  }
+        return response()->json([]);
+    } 
 
-  private function deleteAndCreateCalendarEntry($entry, $user) {
-      Calendar::where([
-          'week' => $entry['week'],
-          'day' => $entry['day'],
-          'hour' => $entry['hour'],
-          'user' => $user->id
-      ])->delete();
+    private function deleteAndCreateCalendarEntry($entry, $user) {
+        Calendar::where([
+            'week' => $entry['week'],
+            'day' => $entry['day'],
+            'hour' => $entry['hour'],
+            'user' => $user->id
+        ])->delete();
 
-      if ($entry['state'] != "u") {
-          Calendar::create([
-              'week' => $entry['week'],
-              'day' => $entry['day'],
-              'hour' => $entry['hour'],
-              'user' => $user->id,
-              'state' => $entry['state'],
-              'comment' => $entry['comment']
-          ]);
-      }
-  }
+        if ($entry['state'] != "u") {
+            Calendar::create([
+                'week' => $entry['week'],
+                'day' => $entry['day'],
+                'hour' => $entry['hour'],
+                'user' => $user->id,
+                'state' => $entry['state'],
+                'comment' => $entry['comment']
+            ]);
+        }
+    }
 }

@@ -31,9 +31,7 @@ class UserController extends Controller
         } else {
             return response()->json(['status' => 'fail'], 401);
         }
-
     }
-
 
     public function authenticate(Request $request)
     {
@@ -43,16 +41,14 @@ class UserController extends Controller
         ]);
 
         $user = User::where('name', $request->input('name'))->first();
-        //return response()->json(["a" => Hash::make($request->input('password'))]);
 
-        if($user != null && Hash::check($request->input('password'), $user->password)){
+        if ($user != null && Hash::check($request->input('password'), $user->password)) {
             $apikey = base64_encode(str_random(40));
             User::where('name', $request->input('name'))->update(['api_key' => $apikey]);;
 
             return response()->json(['status' => 'success', 'api_key' => $apikey]);
-        }else{
+        } else {
             return response()->json(['status' => 'fail'], 401);
         }
     }
-    //
 }
