@@ -13,7 +13,7 @@ export default class Api {
     return url
   }
 
-  validateUser(apikey, successCallback) {
+  validateUser(apikey, successCallback, failCallback) {
     const url = this.constructUrl(
       'validate-user',
       apikey,
@@ -25,13 +25,14 @@ export default class Api {
     ).then(
       response => {
         if (!response.status || response.status !== 'success') {
-          console.log(response)
+          //console.log(response)
+          failCallback()
           return
         }
           
         successCallback(response.username, apikey)
       }
-    ).catch(err => console.log(err))
+    ).catch(failCallback)
   }
 
   login(username, password, successCallback, failCallback) {
@@ -58,7 +59,7 @@ export default class Api {
     ).catch(failCallback)
   }
 
-  getCalendar(state, success, fail) {
+  getCalendar(state, successCallback, failCallback) {
     const url = this.constructUrl(
       'calendar',
       state.apikey,
@@ -73,10 +74,10 @@ export default class Api {
 
     fetch(url).then(
       response => response.json()
-    ).then(success).catch(fail)
+    ).then(successCallback).catch(failCallback)
   }
 
-  updateAction(state, day, hour, action, comment = '') {
+  updateAction(state, day, hour, action, comment = '', successCallback, failCallback) {
     const dayOfWeek = state.week.day()
     const firstDayOfWeek = state.week.subtract(dayOfWeek - 1, 'days').hours(0).minutes(0).seconds(0)
     const specificDay = firstDayOfWeek.add(common.workingDays.indexOf(day), 'days')
@@ -94,9 +95,6 @@ export default class Api {
       }
     )
 
-    fetch(url).catch(reason => console.log(reason))
-    /*.then(
-      response => response.json()
-    ).then(success).catch(fail)*/
+    fetch(url).then(response => response.json()).then(successCallback).catch(failCallback)
   }
 }

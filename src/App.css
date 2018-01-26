@@ -1,14 +1,14 @@
 html,
 body {
-  margin: 0;
-  padding: 0;
+  /* margin: 0;
+  padding: 0;*/
   display: flex;
-  justify-content: center;
+  justify-content: center; 
 }
 
 .App {
   text-align: center;
-  max-width: 880px;
+  /* max-width: 880px; */
 }
 
 table {
@@ -65,19 +65,6 @@ th {
   background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 0, 0, .5) 5px, rgba(255, 0, 0, .5) 10px);
 }
 
-
-/* .unset.highlight {
-}
-
-.free.highlight {
-}
-
-.maybe.highlight {
-}
-
-.occupied.highlight {
-} */
-
 .highlight {
   font-weight: bold;
   text-shadow: black 0 0 1ex;
@@ -85,10 +72,10 @@ th {
 }
 
 #controlPanel {
-  line-height: 3em;
+  /* line-height: 3em;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; */
 }
 
 .flexflow {
@@ -105,7 +92,7 @@ th {
 }
 
 .button {
-  display: flex;
+  /* display: flex;
   justify-content: center;
   align-items: center;
   width: 10ex;
@@ -113,7 +100,7 @@ th {
   border-radius: 1ex;
   height: 2em;
   margin: 0.2ex;
-  cursor: pointer;
+  cursor: pointer; */
 }
 
 .button.smallerButton {
@@ -161,7 +148,17 @@ background-color: gray;
 background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);
 */
 
+
 .loginform {
+  display: flex;
+  flex-direction: column;
+  /* margin: 1em;
+  padding: 3em;
+  background: #eee;
+  border-radius: 1ex; */
+}
+
+/* .loginform {
   display: flex;
   flex-direction: column;
   margin: 1em;
@@ -177,7 +174,7 @@ background-image: repeating-linear-gradient(45deg, transparent, transparent 35px
 
 .loginform .button {
   margin-top: 2em;
-}
+} */
 
 #failedlogin {
   -webkit-transition: 0.3s;

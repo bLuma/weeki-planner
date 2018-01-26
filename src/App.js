@@ -5,6 +5,7 @@ import ControlPanel from './ControlPanel'
 import moment from 'moment'
 import Api from './api'
 import './App.css'
+import Snackbar from 'material-ui/Snackbar';
 
 class App extends Component {
   constructor(props) {
@@ -21,7 +22,10 @@ class App extends Component {
       data: data,
       editMode: false,
       editType: common.EDIT_TYPE_SL,
-      apikey: props.apikey
+      apikey: props.apikey,
+
+      snackbarOpen: false,
+      snackbarMessage: ''
     }
 
     this.onSelectedWeek = this.onSelectedWeek.bind(this)
@@ -29,7 +33,13 @@ class App extends Component {
     this.onSelectedEditType = this.onSelectedEditType.bind(this)
     this.onTableClick = this.onTableClick.bind(this)
     this.onTableCommentUpdate = this.onTableCommentUpdate.bind(this)
+    this.onUpdateActionCallback = this.onUpdateActionCallback.bind(this)
+    this.handleSnackbarRequestClose = this.handleSnackbarRequestClose.bind(this)
     this.api = new Api();
+  }
+
+  handleSnackbarRequestClose() {
+    this.setState({snackbarOpen: false})
   }
 
   componentDidMount() {
@@ -83,35 +93,62 @@ class App extends Component {
   }
 
   onTableClick(day, hour) {
-    this.setState((prevState) => {
-      const userDataObject = this.findUserDataObject(prevState.data, prevState.user)
+    this.setState(state => {
+      const userDataObject = this.findUserDataObject(state.data, state.user)
       if (userDataObject.data[day] === undefined) {
         userDataObject.data[day] = common.emptySet.slice()
       }
 
       const hourIndex = hour - common.baseHour
-      const action = prevState.action
+      const action = state.action
+      const oldSlotState = userDataObject.data[day][hourIndex]
 
-      if (prevState.editType === common.EDIT_TYPE_SPECIFIC && action !== "unset") {
-        userDataObject.data[day][hourIndex].base = userDataObject.data[day][hourIndex]
-        userDataObject.data[day][hourIndex].override = prevState.week.unix()
-        userDataObject.data[day][hourIndex].type = "custom"
-        userDataObject.data[day][hourIndex].comment = ""
-      }
-
-      if (prevState.editType === common.EDIT_TYPE_SPECIFIC && action === "unset" && userDataObject.data[day][hourIndex].base !== undefined) {
+      if (state.editType === common.EDIT_TYPE_SPECIFIC && action !== "unset") {
+        userDataObject.data[day][hourIndex] = {
+          base: oldSlotState,
+          override: state.week.unix(),
+          state: action,
+          type: 'custom',
+          comment: ''
+        }
+      } else if (state.editType === common.EDIT_TYPE_SPECIFIC && action === "unset" && userDataObject.data[day][hourIndex].base !== undefined) {
         userDataObject.data[day][hourIndex] = userDataObject.data[day][hourIndex].base
       } else {
-        userDataObject.data[day][hourIndex].state = prevState.action
-        userDataObject.data[day][hourIndex].comment = ""
+        userDataObject.data[day][hourIndex] = {
+          ...oldSlotState,
+          state: action,
+          comment: ''
+        }
       }
 
-      this.api.updateAction(prevState, day, hourIndex, prevState.action)
+      this.api.updateAction(state, day, hourIndex, state.action, '', () => {
+        console.log('sucess update action')
+      }, () => {
+        console.log('failed update action')
+        this.onUpdateActionCallback(day, hourIndex, oldSlotState)
+      })
 
-      return prevState
+      return state
     })
   }
 
+  onUpdateActionCallback(day, hourIndex, slotState) {
+    this.setState(state => {
+      const userDataObject = this.findUserDataObject(state.data, state.user)
+      if (userDataObject.data[day] === undefined) {
+        userDataObject.data[day] = common.emptySet.slice()
+      }
+
+      userDataObject.data[day][hourIndex] = slotState
+
+      state.snackbarOpen = true
+      state.snackbarMessage = 'Chyba komunikace, nepodařilo se nastavit stav!'
+
+      return state
+    })
+  }
+
+ 
   onTableCommentUpdate(day, hour, comment) {
     this.setState((prevState) => {
       const userDataObject = this.findUserDataObject(prevState.data, prevState.user)
@@ -137,7 +174,6 @@ class App extends Component {
     return undefined
   }
 
-
   render() {
     const appState = {
       data: this.state.data,
@@ -147,17 +183,26 @@ class App extends Component {
       editType: this.state.editType,
       user: this.state.user,
       week: this.state.week,
+      dateTimeFormat: this.props.dateTimeFormat,
       onSelectedAction: this.onSelectedAction,
       onSelectedWeek: this.onSelectedWeek,
       onTableClick: this.onTableClick,
       onTableCommentUpdate: this.onTableCommentUpdate,
       onSelectedEditType: this.onSelectedEditType,
     }
+    
 
     return (
       <div className="App">
+        {/* <AppBar title='Weeki-Planner' /> */}
         <ControlPanel appState={appState} />
         <Table appState={appState} />
+        <Snackbar
+          open={this.state.snackbarOpen}
+          message={this.state.snackbarMessage}
+          autoHideDuration={4000}
+          onRequestClose={this.handleSnackbarRequestClose}
+        />
       </div>
     );
   }

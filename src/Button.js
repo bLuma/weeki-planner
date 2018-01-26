@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import FontAwesome from 'react-fontawesome'
+import RaisedButton from 'material-ui/RaisedButton';
 
 export class Button extends Component {
   render() {
@@ -7,9 +8,15 @@ export class Button extends Component {
     const className = [this.props.action, "button", highlightClassName, this.props.extraClassName]
 
     return (
-      <div onClick={() => this.props.onSelectedAction(this.props.action)} className={className.join(" ")}>
-        {this.props.children}
-      </div>
+      <RaisedButton
+        label={this.props.children}
+        primary={this.props.activeAction === this.props.action}
+        onClick={() => this.props.onSelectedAction(this.props.action)}
+        style={{marginRight:3,marginLeft:3}}
+      />
+      // <div onClick={() => this.props.onSelectedAction(this.props.action)} className={className.join(" ")}>
+      //   {this.props.children}
+      // </div>
     )
   }
 }

@@ -16,11 +16,22 @@ class AppRouter extends React.PureComponent {
 
     this.api = new Api()
     this.setUser = this.setUser.bind(this)
+    this.handleValidationFail = this.handleValidationFail.bind(this)
+    this.handleValidationSuccess = this.handleValidationSuccess.bind(this)
 
     if (this.props.getCachedCredentials() !== null && this.props.getCachedCredentials() !== '') {
-      this.api.validateUser(this.props.getCachedCredentials(), this.setUser)
+      this.api.validateUser(this.props.getCachedCredentials(), this.handleValidationSuccess, this.handleValidationFail)
     }
   }
+  
+  handleValidationSuccess(user, apikey) {
+    this.setUser(user, apikey)
+  }
+
+  handleValidationFail() {
+    console.log('failed validation')
+  }
+
 
   setUser(user, apikey) {
     this.setState({
@@ -37,15 +48,16 @@ class AppRouter extends React.PureComponent {
         {this.state.user === undefined ?
           <Login setUserCallback={this.setUser} />
          :
-          <App user={this.state.user} apikey={this.state.apikey} />}
+          <App user={this.state.user} apikey={this.state.apikey} dateTimeFormat={this.props.dateTimeFormat} />}
       </div>
     )
   }
 }
 
-AppRouter.propTypes = {
-  setCachedCredentials: PropTypes.func,
-  getCachedCredentials: PropTypes.func
-}
+// AppRouter.propTypes = {
+//   setCachedCredentials: PropTypes.func,
+//   getCachedCredentials: PropTypes.func,
+//   dateTimeFormat: PropTypes.object
+// }
 
 export default AppRouter;

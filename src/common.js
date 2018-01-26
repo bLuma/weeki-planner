@@ -5,7 +5,7 @@ export const baseHour = 8
 export const durationOfWorkDay = 9
 export const workingDays = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", /*sunday*/]
 
-export const momentLocale = 'cs'
+export const momentLocale = 'cs-CZ' // cs
 
 export const apiurl = "http://localhost:3000/backend/api/v1/"
 
