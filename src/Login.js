@@ -14,7 +14,7 @@ class Login extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this)
     this.onKeyPress = this.onKeyPress.bind(this)
     this.failedLogin = this.failedLogin.bind(this)
-    this.hideFailedLogin = this.hideFailedLogin.bind(this)
+    //this.hideFailedLogin = this.hideFailedLogin.bind(this)
   }
 
   componentDidMount() {
@@ -56,6 +56,7 @@ class Login extends React.PureComponent {
         {/* <label htmlFor="login">Login:</label> */}
         {/* <input type="text" id="login" name="login" ref={input => this.login = input} onKeyPress={this.onKeyPress} /> */}
         <TextField
+          autoFocus='true'
           hintText='Login'
           floatingLabelText='Login'
           onChange={(e)=>this.setState({login:e.target.value})}
