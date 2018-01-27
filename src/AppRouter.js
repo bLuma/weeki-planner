@@ -3,6 +3,7 @@ import App from './App'
 import Login from './Login'
 import PropTypes from 'prop-types'
 import Api from './api'
+import FontAwesome from 'react-fontawesome'
 
 class AppRouter extends React.PureComponent {
 
@@ -11,7 +12,8 @@ class AppRouter extends React.PureComponent {
 
     this.state = {
       user: undefined,
-      apikey: undefined
+      apikey: undefined,
+      validating: false
     }
 
     this.api = new Api()
@@ -19,7 +21,9 @@ class AppRouter extends React.PureComponent {
     this.handleValidationFail = this.handleValidationFail.bind(this)
     this.handleValidationSuccess = this.handleValidationSuccess.bind(this)
 
-    if (this.props.getCachedCredentials() !== null && this.props.getCachedCredentials() !== '') {
+    const cachedCredentials = this.props.getCachedCredentials()
+    if (cachedCredentials !== null && cachedCredentials !== '') {
+      this.state.validating = true
       this.api.validateUser(this.props.getCachedCredentials(), this.handleValidationSuccess, this.handleValidationFail)
     }
   }
@@ -27,16 +31,17 @@ class AppRouter extends React.PureComponent {
   handleValidationSuccess(user, apikey) {
     this.setUser(user, apikey)
   }
-
+  
   handleValidationFail() {
-    console.log('failed validation')
+    this.setState({validating: false})
+    //console.log('failed validation')
   }
-
 
   setUser(user, apikey) {
     this.setState({
       user: user,
-      apikey: apikey
+      apikey: apikey,
+      validating: false
     })
 
     this.props.setCachedCredentials(apikey)
@@ -45,19 +50,23 @@ class AppRouter extends React.PureComponent {
   render() {
     return (
       <div>
-        {this.state.user === undefined ?
-          <Login setUserCallback={this.setUser} />
-         :
+        {this.state.user === undefined && !this.state.validating && 
+          <Login setUserCallback={this.setUser} />}
+        {this.state.user !== undefined && 
           <App user={this.state.user} apikey={this.state.apikey} dateTimeFormat={this.props.dateTimeFormat} />}
+        {this.state.validating && 
+          <div className="loginform">
+            <FontAwesome name="spinner" className="fa-spin" />
+          </div>}
       </div>
     )
   }
 }
 
-// AppRouter.propTypes = {
-//   setCachedCredentials: PropTypes.func,
-//   getCachedCredentials: PropTypes.func,
-//   dateTimeFormat: PropTypes.object
-// }
+AppRouter.propTypes = {
+  setCachedCredentials: PropTypes.func,
+  getCachedCredentials: PropTypes.func,
+  dateTimeFormat: PropTypes.func
+}
 
 export default AppRouter;
