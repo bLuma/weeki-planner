@@ -4,8 +4,9 @@ import Table from './Table'
 import ControlPanel from './ControlPanel'
 import moment from 'moment'
 import Api from './api'
+import Snackbar from 'material-ui/Snackbar'
+import FontAwesome from 'react-fontawesome'
 import './App.css'
-import Snackbar from 'material-ui/Snackbar';
 
 class App extends Component {
   constructor(props) {
@@ -25,7 +26,9 @@ class App extends Component {
       apikey: props.apikey,
 
       snackbarOpen: false,
-      snackbarMessage: ''
+      snackbarMessage: '',
+      
+      showSpinner: true
     }
 
     this.onSelectedWeek = this.onSelectedWeek.bind(this)
@@ -35,7 +38,7 @@ class App extends Component {
     this.onTableCommentUpdate = this.onTableCommentUpdate.bind(this)
     this.onUpdateActionCallback = this.onUpdateActionCallback.bind(this)
     this.handleSnackbarRequestClose = this.handleSnackbarRequestClose.bind(this)
-    this.api = new Api();
+    this.api = new Api()
   }
 
   handleSnackbarRequestClose() {
@@ -45,8 +48,8 @@ class App extends Component {
   componentDidMount() {
     this.api.getCalendar(
       this.state,
-      (r) => this.setState({ data: r }),
-      (e) => console.log("err " + e)
+      result => this.setState({ data: result, showSpinner: false }),
+      error => this.setState({ snackbarOpen: true, snackbarMessage: '' + error, showSpinner: false})
     )
   }
 
@@ -54,13 +57,14 @@ class App extends Component {
     this.setState(state => {
       week.utcOffset(0)
       state.week = week
-      console.log(week + " " + week.unix());
-      console.log(week.format());
+      state.showSpinner = true
+      // console.log(week + " " + week.unix());
+      // console.log(week.format());
 
       this.api.getCalendar(
         state,
-        (r) => { this.setState({ data: r }); console.log(r[0].date) },
-        (e) => console.log("err " + e)
+        result => this.setState({ data: result, showSpinner: false }),
+        error => this.setState({ snackbarOpen: true, snackbarMessage: '' + error, showSpinner: false})
       )
 
       return state
@@ -72,23 +76,26 @@ class App extends Component {
   }
 
   onSelectedEditType(editType) {
-    this.setState(prevState => {
+    this.setState(state => {
       if (editType === common.EDIT_TYPE_TURN_OFF) {
-        prevState.editMode = false
-        prevState.editType = common.EDIT_TYPE_SL
+        state.editMode = false
+        state.editType = common.EDIT_TYPE_SL
       } else if (editType === common.EDIT_TYPE_TURN_ON) {
-        prevState.editMode = true
+        state.editMode = true
         editType = common.EDIT_TYPE_SL
       }
-      Object.assign(prevState, { editType: editType })
+      
+      state.editType = editType
+      state.data = []
+      state.showSpinner = true
 
       this.api.getCalendar(
-        prevState,
-        (r) => this.setState({ data: r }),
-        (e) => console.log("err " + e)
+        state,
+        result => this.setState({ data: result, showSpinner: false }),
+        error => this.setState({ snackbarOpen: true, snackbarMessage: '' + error, showSpinner: false})
       )
 
-      return prevState
+      return state
     })
   }
 
@@ -190,13 +197,12 @@ class App extends Component {
       onTableCommentUpdate: this.onTableCommentUpdate,
       onSelectedEditType: this.onSelectedEditType,
     }
-    
 
     return (
       <div className="App">
-        {/* <AppBar title='Weeki-Planner' /> */}
         <ControlPanel appState={appState} />
-        <Table appState={appState} />
+        {this.state.showSpinner && <FontAwesome name="spinner" className="fa-spin" />}
+        {!this.state.showSpinner && <Table appState={appState} />}
         <Snackbar
           open={this.state.snackbarOpen}
           message={this.state.snackbarMessage}

@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom'
 import AppRouter from './AppRouter'
 import moment from 'moment'
 import {momentLocale} from './common'
-import './index.css'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
-// import AppBar from 'material-ui/AppBar';
 import areIntlLocalesSupported from 'intl-locales-supported'
+import './index.css'
 
+///////////////////////////////////////////////////////////////////////////////
 
 let DateTimeFormat;
 /**
@@ -22,6 +22,9 @@ if (areIntlLocalesSupported([momentLocale])) {
   require('intl/locale-data/jsonp/' + momentLocale);
 }
 
+moment.locale(momentLocale)
+
+///////////////////////////////////////////////////////////////////////////////
 
 const LOCALSTORAGE_APIKEY = 'apikey'
 
@@ -33,7 +36,7 @@ function setCachedCredentials(apikey) {
   localStorage.setItem(LOCALSTORAGE_APIKEY, apikey)
 }
 
-moment.locale(momentLocale)
+///////////////////////////////////////////////////////////////////////////////
 
 const muiTheme = getMuiTheme({
   button: {

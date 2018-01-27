@@ -106,8 +106,8 @@ th {
 }
 
 .button.smallerButton {
-  background-color: gray;
-  width: 6ex;
+  /* background-color: gray; */
+  /* width: 6ex; */
 }
 
 .button:hover,
