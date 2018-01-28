@@ -1,6 +1,6 @@
 import React from 'react'
 import Api from './api';
-import FontAwesome from 'react-fontawesome'
+import CircularProgress from 'material-ui/CircularProgress'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import Snackbar from 'material-ui/Snackbar'
@@ -64,7 +64,7 @@ class Login extends React.PureComponent {
         />
         
         <RaisedButton
-          label={this.state.showSpinner ? <FontAwesome name="spinner" className="fa-spin" /> : "Login"}
+          label={this.state.showSpinner ? <CircularProgress /> : "Login"}
           primary={true}
           onClick={this.onSubmit}
         />

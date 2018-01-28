@@ -1,7 +1,15 @@
 import React, { Component }  from 'react'
 import * as common from './common'
-import FontAwesome from 'react-fontawesome'
 import 'moment/locale/cs'
+import IconButton from 'material-ui/IconButton'
+import CommentOIcon from 'mui-icons/fontawesome/comment-o'
+import CommentingOIcon from 'mui-icons/fontawesome/commenting-o'
+import CheckCircleIcon from 'mui-icons/fontawesome/check-circle'
+import CircleIcon from 'mui-icons/fontawesome/circle'
+import CircleOIcon from 'mui-icons/fontawesome/circle-o'
+import CheckIcon from 'mui-icons/fontawesome/check'
+import TimesIcon from 'mui-icons/fontawesome/times'
+import QuestionIcon from 'mui-icons/fontawesome/question'
 
 // props = {fn click, user, hour, state}
 export class UserTableCell extends Component {
@@ -67,41 +75,78 @@ export class UserTableCell extends Component {
       ].join(" ")
 
       const visibleState = this.state.mouseEntered && !mouseOverCommentButton ? this.props.appState.action : state
-      const faState = common.fontAwesomeNamesForStates[visibleState]
+      // const faState = common.fontAwesomeNamesForStates[visibleState]
+
+      // unset: 'circle-o',
+      // free: 'check',
+      // occupied: 'times',
+      // maybe: 'question',
+      let stateIcon = undefined
+      switch (visibleState) {
+        case 'unset': stateIcon = <CircleOIcon />; break
+        case 'free': stateIcon = <CheckIcon />; break
+        case 'occupied': stateIcon = <TimesIcon />; break
+        case 'maybe': stateIcon = <QuestionIcon />; break
+      }
+
+      const ibiconstyle = {width: 13, height: 13}
+      const ibstyle = {width: 15, height: 15, padding: 2}
 
       return (
         <td className={className} onClick={onTableCellClick} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
           <div className="flexflow flexaround">
             {/* base/custom indicator */}
-            {type === 'base' && <FontAwesome name="circle" className="invisible"/>}
-            {type === 'custom' && <FontAwesome name="circle"/>}
+            {type === 'base' && 
+              <IconButton className="invisible" style={ibstyle} iconStyle={ibiconstyle}>
+                <CircleIcon />
+              </IconButton>
+            }
+            {type === 'custom' && 
+              <IconButton style={ibstyle} iconStyle={ibiconstyle}>
+                <CircleIcon />
+              </IconButton>
+            }
 
             {/* state indicator */}
             {!this.state.inNoteEditMode && // TODO: fix this super ugly code
-              <FontAwesome name={faState}/>
+              <IconButton style={ibstyle} iconStyle={ibiconstyle} disableTouchRipple={true}>
+                {stateIcon}
+              </IconButton>
             }
 
             {/* comment indicator */}
             {(!this.state.inNoteEditMode && (comment !== undefined && comment !== "") && !this.state.mouseEntered) && (
-              <FontAwesome name="comment-o" title={comment} />
+              <IconButton tooltip={comment} style={ibstyle} iconStyle={ibiconstyle}>
+                <CommentOIcon />
+              </IconButton>
+                
             )}
             {(!this.state.inNoteEditMode && (comment === undefined || comment === "") && !this.state.mouseEntered) && (
-              <FontAwesome name="comment-o" className="invisible"/>
+              <IconButton className="invisible" style={ibstyle} iconStyle={ibiconstyle}>
+                <CommentOIcon />
+              </IconButton>
             )}
 
             {/* make comment indicator (mouse hover) */}
             {(!this.state.inNoteEditMode && this.state.mouseEntered) && (
-              <FontAwesome name="commenting-o" className="pencilClass" title={comment} onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: true})}}
+              <IconButton className="pencilClass" tooltip={comment} style={ibstyle} iconStyle={ibiconstyle}
+                onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: true})}}
                 onMouseEnter={this.onCommentMouseEnter}
                 onMouseLeave={this.onCommentMouseLeave}
-                />
+              >
+                <CommentingOIcon />
+              </IconButton>
             )}
 
             {/* commenting mode */}
             {this.state.inNoteEditMode && (
               <div className="flexflow flexaround">
                 <input type="text" placeholder={comment} ref={input => {this.textInput = input; if (input) input.focus()}} onKeyUp={this.onKeyUp} onClick={e => {e.stopPropagation()}}/>
-                <FontAwesome name="check-circle" className="pencilClass" onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: false, mouseEntered: false}); console.log(this.textInput.value); this.props.appState.onTableCommentUpdate(this.props.day, this.props.hour, this.textInput.value); }}/>
+                <IconButton style={ibstyle} iconStyle={ibiconstyle}
+                  onClick={e => {e.stopPropagation(); this.setState({inNoteEditMode: false, mouseEntered: false}); console.log(this.textInput.value); this.props.appState.onTableCommentUpdate(this.props.day, this.props.hour, this.textInput.value); }}
+                >
+                  <CheckCircleIcon />
+                </IconButton>
               </div>
             )}
           </div>

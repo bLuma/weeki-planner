@@ -1,3 +1,9 @@
+import React from 'react'
+import CircleOIcon from 'mui-icons/fontawesome/circle-o'
+import CheckIcon from 'mui-icons/fontawesome/check'
+import TimesIcon from 'mui-icons/fontawesome/times'
+import QuestionIcon from 'mui-icons/fontawesome/question'
+
 export const baseHour = 8
 export const durationOfWorkDay = 9
 export const workingDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', /*sunday*/]
@@ -20,11 +26,15 @@ export const localDayNames = {
 }
 
 export const fontAwesomeNamesForStates = {
-  unset: 'circle-o',
-  free: 'check',
-  occupied: 'times',
-  maybe: 'question',
+  unset: <CircleOIcon />,
+  free: <CheckIcon />,
+  occupied: <TimesIcon />,
+  maybe: <QuestionIcon />,
 }
+
+export const IBIconStyle = {width: 13, height: 13}
+export const IBStyle = {width: 15, height: 15, padding: 2}
+export const FIStyle = {transform:'scale(0.8) translate(0, 10%)'}
 
 export const EDIT_TYPE_SL = 'eo'
 export const EDIT_TYPE_S = 'e'

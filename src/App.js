@@ -5,7 +5,7 @@ import ControlPanel from './ControlPanel'
 import moment from 'moment'
 import Api from './api'
 import Snackbar from 'material-ui/Snackbar'
-import FontAwesome from 'react-fontawesome'
+import CircularProgress from 'material-ui/CircularProgress'
 import './App.css'
 
 class App extends Component {
@@ -201,7 +201,7 @@ class App extends Component {
     return (
       <div className="App">
         <ControlPanel appState={appState} />
-        {this.state.showSpinner && <FontAwesome name="spinner" className="fa-spin" />}
+        {this.state.showSpinner && <CircularProgress />}
         {!this.state.showSpinner && <Table appState={appState} />}
         <Snackbar
           open={this.state.snackbarOpen}

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import FontAwesome from 'react-fontawesome'
+import {FIStyle} from './common'
+// import FontAwesome from 'react-fontawesome'
 import RaisedButton from 'material-ui/RaisedButton'
+import FontIcon from 'material-ui/FontIcon'
 
 export class Button extends Component {
   render() {
@@ -20,6 +22,9 @@ export class Button extends Component {
 
 export const ButtonFA = (props) => (
   <Button {...props}>
-    <FontAwesome name={props.content}/>
+    <FontIcon style={FIStyle}>
+      {props.content}
+    </FontIcon>
+    {/* <FontAwesome name={props.content}/> */}
   </Button>
 )

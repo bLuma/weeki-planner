@@ -40,7 +40,7 @@ function setCachedCredentials(apikey) {
 
 const muiTheme = getMuiTheme({
   button: {
-    minWidth: 30
+    minWidth: 30,
   },
 });
 

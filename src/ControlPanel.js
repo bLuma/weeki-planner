@@ -3,7 +3,7 @@ import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker.css'
 import * as common from './common'
 import {Button, ButtonFA} from './Button'
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar'
+import {Toolbar, ToolbarGroup, ToolbarSeparator/*, ToolbarTitle*/} from 'material-ui/Toolbar'
 import DatePicker from 'material-ui/DatePicker'
 
 export default class ControlPanel extends Component {

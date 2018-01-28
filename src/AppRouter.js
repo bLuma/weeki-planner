@@ -3,7 +3,7 @@ import App from './App'
 import Login from './Login'
 import PropTypes from 'prop-types'
 import Api from './api'
-import FontAwesome from 'react-fontawesome'
+import CircularProgress from 'material-ui/CircularProgress'
 
 class AppRouter extends React.PureComponent {
 
@@ -56,7 +56,7 @@ class AppRouter extends React.PureComponent {
           <App user={this.state.user} apikey={this.state.apikey} dateTimeFormat={this.props.dateTimeFormat} />}
         {this.state.validating && 
           <div className="loginform">
-            <FontAwesome name="spinner" className="fa-spin" />
+            <CircularProgress />
           </div>}
       </div>
     )
