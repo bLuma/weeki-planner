@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import * as common from './common'
+import {WorkingHours, EmptySet, BaseHour, EDIT_TYPE_SL, EDIT_TYPE_TURN_OFF, EDIT_TYPE_TURN_ON, EDIT_TYPE_SPECIFIC} from './common'
 import Table from './Table'
 import ControlPanel from './ControlPanel'
 import moment from 'moment'
@@ -22,7 +22,7 @@ class App extends Component {
       action: "unset",
       data: data,
       editMode: false,
-      editType: common.EDIT_TYPE_SL,
+      editType: EDIT_TYPE_SL,
       apikey: props.apikey,
 
       snackbarOpen: false,
@@ -77,12 +77,12 @@ class App extends Component {
 
   onSelectedEditType(editType) {
     this.setState(state => {
-      if (editType === common.EDIT_TYPE_TURN_OFF) {
+      if (editType === EDIT_TYPE_TURN_OFF) {
         state.editMode = false
-        state.editType = common.EDIT_TYPE_SL
-      } else if (editType === common.EDIT_TYPE_TURN_ON) {
+        state.editType = EDIT_TYPE_SL
+      } else if (editType === EDIT_TYPE_TURN_ON) {
         state.editMode = true
-        editType = common.EDIT_TYPE_SL
+        editType = EDIT_TYPE_SL
       }
       
       state.editType = editType
@@ -103,14 +103,14 @@ class App extends Component {
     this.setState(state => {
       const userDataObject = this.findUserDataObject(state.data, state.user)
       if (userDataObject.data[day] === undefined) {
-        userDataObject.data[day] = common.emptySet.slice()
+        userDataObject.data[day] = EmptySet.slice()
       }
 
-      const hourIndex = hour - common.baseHour
+      const hourIndex = hour - BaseHour
       const action = state.action
       const oldSlotState = userDataObject.data[day][hourIndex]
 
-      if (state.editType === common.EDIT_TYPE_SPECIFIC && action !== "unset") {
+      if (state.editType === EDIT_TYPE_SPECIFIC && action !== "unset") {
         userDataObject.data[day][hourIndex] = {
           base: oldSlotState,
           override: state.week.unix(),
@@ -118,7 +118,7 @@ class App extends Component {
           type: 'custom',
           comment: ''
         }
-      } else if (state.editType === common.EDIT_TYPE_SPECIFIC && action === "unset" && userDataObject.data[day][hourIndex].base !== undefined) {
+      } else if (state.editType === EDIT_TYPE_SPECIFIC && action === "unset" && userDataObject.data[day][hourIndex].base !== undefined) {
         userDataObject.data[day][hourIndex] = userDataObject.data[day][hourIndex].base
       } else {
         userDataObject.data[day][hourIndex] = {
@@ -143,7 +143,7 @@ class App extends Component {
     this.setState(state => {
       const userDataObject = this.findUserDataObject(state.data, state.user)
       if (userDataObject.data[day] === undefined) {
-        userDataObject.data[day] = common.emptySet.slice()
+        userDataObject.data[day] = EmptySet.slice()
       }
 
       userDataObject.data[day][hourIndex] = slotState
@@ -160,10 +160,10 @@ class App extends Component {
     this.setState((prevState) => {
       const userDataObject = this.findUserDataObject(prevState.data, prevState.user)
       if (userDataObject.data[day] === undefined) {
-        userDataObject.data[day] = common.emptySet.slice()
+        userDataObject.data[day] = EmptySet.slice()
       }
 
-      const hourIndex = hour - common.baseHour
+      const hourIndex = hour - BaseHour
       userDataObject.data[day][hourIndex].comment = comment
 
       this.api.updateAction(prevState, day, hourIndex, userDataObject.data[day][hourIndex].state, comment)
@@ -185,7 +185,7 @@ class App extends Component {
     const appState = {
       data: this.state.data,
       action: this.state.action,
-      hours: common.workingHours,
+      hours: WorkingHours,
       editMode: this.state.editMode,
       editType: this.state.editType,
       user: this.state.user,
@@ -201,7 +201,7 @@ class App extends Component {
     return (
       <div className="App">
         <ControlPanel appState={appState} />
-        {this.state.showSpinner && <CircularProgress />}
+        {this.state.showSpinner && <CircularProgress size={100} thickness={10} />}
         {!this.state.showSpinner && <Table appState={appState} />}
         <Snackbar
           open={this.state.snackbarOpen}

@@ -56,7 +56,7 @@ class AppRouter extends React.PureComponent {
           <App user={this.state.user} apikey={this.state.apikey} dateTimeFormat={this.props.dateTimeFormat} />}
         {this.state.validating && 
           <div className="loginform">
-            <CircularProgress />
+            <CircularProgress size={100} thickness={10} />
           </div>}
       </div>
     )

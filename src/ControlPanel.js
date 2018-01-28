@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import 'react-datepicker/dist/react-datepicker.css'
-import * as common from './common'
+import {MomentLocale, IconForState, EDIT_TYPE_TURN_ON, EDIT_TYPE_TURN_OFF, EDIT_TYPE_SL, EDIT_TYPE_S, EDIT_TYPE_L, EDIT_TYPE_SPECIFIC} from './common'
 import {Button, ButtonFA} from './Button'
 import {Toolbar, ToolbarGroup, ToolbarSeparator/*, ToolbarTitle*/} from 'material-ui/Toolbar'
 import DatePicker from 'material-ui/DatePicker'
@@ -34,22 +34,22 @@ export default class ControlPanel extends Component {
       activeAction: this.props.appState.action,
       onSelectedAction: this.props.appState.onSelectedAction,
     }
-    const shouldDisableDatePicker = this.props.appState.editMode && this.props.appState.editType !== common.EDIT_TYPE_SPECIFIC
+    const shouldDisableDatePicker = this.props.appState.editMode && this.props.appState.editType !== EDIT_TYPE_SPECIFIC
 
     return (
       <div id="controlPanel">
         <Toolbar>
           <ToolbarGroup>
-            {!this.props.appState.editMode && <Button action={common.EDIT_TYPE_TURN_ON} {...editTypeButtonProps}>Upravit</Button>}
+            {!this.props.appState.editMode && <Button action={EDIT_TYPE_TURN_ON} {...editTypeButtonProps}>Upravit</Button>}
             
-            {this.props.appState.editMode && <Button action={common.EDIT_TYPE_TURN_OFF} {...editTypeButtonProps}>Konec</Button>}
-            {this.props.appState.editMode && <Button action={common.EDIT_TYPE_SL} {...editTypeButtonProps}>S&amp;L</Button>}
-            {this.props.appState.editMode && <Button action={common.EDIT_TYPE_S} {...editTypeButtonProps}>S</Button>}
-            {this.props.appState.editMode && <Button action={common.EDIT_TYPE_L} {...editTypeButtonProps}>L</Button>}
-            {this.props.appState.editMode && <Button action={common.EDIT_TYPE_SPECIFIC} {...editTypeButtonProps}>Týden</Button>}
+            {this.props.appState.editMode && <Button action={EDIT_TYPE_TURN_OFF} {...editTypeButtonProps}>Konec</Button>}
+            {this.props.appState.editMode && <Button action={EDIT_TYPE_SL} {...editTypeButtonProps}>S&amp;L</Button>}
+            {this.props.appState.editMode && <Button action={EDIT_TYPE_S} {...editTypeButtonProps}>S</Button>}
+            {this.props.appState.editMode && <Button action={EDIT_TYPE_L} {...editTypeButtonProps}>L</Button>}
+            {this.props.appState.editMode && <Button action={EDIT_TYPE_SPECIFIC} {...editTypeButtonProps}>Týden</Button>}
             
             <DatePicker 
-              locale={common.momentLocale} 
+              locale={MomentLocale} 
               DateTimeFormat={this.props.appState.dateTimeFormat} 
               disabled={shouldDisableDatePicker}
               onChange={this.onChangeDate}
@@ -61,10 +61,10 @@ export default class ControlPanel extends Component {
           {this.props.appState.editMode && (
             <ToolbarGroup>
               <ToolbarSeparator />
-              <ButtonFA content={common.fontAwesomeNamesForStates["unset"]} action="unset" {...actionButtonProps}/>
-              <ButtonFA content={common.fontAwesomeNamesForStates["free"]} action="free" {...actionButtonProps}/>
-              <ButtonFA content={common.fontAwesomeNamesForStates["occupied"]} action="occupied" {...actionButtonProps}/>
-              <ButtonFA content={common.fontAwesomeNamesForStates["maybe"]} action="maybe" {...actionButtonProps}/>
+              <ButtonFA content={IconForState["unset"]} action="unset" {...actionButtonProps}/>
+              <ButtonFA content={IconForState["free"]} action="free" {...actionButtonProps}/>
+              <ButtonFA content={IconForState["occupied"]} action="occupied" {...actionButtonProps}/>
+              <ButtonFA content={IconForState["maybe"]} action="maybe" {...actionButtonProps}/>
             </ToolbarGroup>
           )}
         </Toolbar>

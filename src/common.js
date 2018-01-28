@@ -4,18 +4,18 @@ import CheckIcon from 'mui-icons/fontawesome/check'
 import TimesIcon from 'mui-icons/fontawesome/times'
 import QuestionIcon from 'mui-icons/fontawesome/question'
 
-export const baseHour = 8
-export const durationOfWorkDay = 9
-export const workingDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', /*sunday*/]
+export const BaseHour = 8
+export const DurationOfWorkDay = 9
+export const WorkingDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', /*sunday*/]
 
-export const momentLocale = 'cs-CZ' // cs
+export const MomentLocale = 'cs-CZ' // cs
 
-export const apiurl = 'http://localhost:3000/backend/api/v1/'
+export const ApiUrl = 'http://localhost:3000/backend/api/v1/'
 
-export const workingHours = new Array(durationOfWorkDay).fill(0).map((v,idx) => baseHour + idx)
-export const emptySet = workingHours.map(() => ({state: 'unset', comment: '', type: 'base'}))
+export const WorkingHours = new Array(DurationOfWorkDay).fill(0).map((v,idx) => BaseHour + idx)
+export const EmptySet = WorkingHours.map(() => ({state: 'unset', comment: '', type: 'base'}))
 
-export const localDayNames = {
+export const LocalDayNames = {
   monday: 'Pondělí',
   tuesday: 'Úterý',
   wednesday: 'Středa',
@@ -25,7 +25,7 @@ export const localDayNames = {
   sunday: 'Neděle'
 }
 
-export const fontAwesomeNamesForStates = {
+export const IconForState = {
   unset: <CircleOIcon />,
   free: <CheckIcon />,
   occupied: <TimesIcon />,

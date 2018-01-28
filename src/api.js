@@ -1,9 +1,9 @@
-import * as common from './common'
+import {ApiUrl, DurationOfWorkDay, WorkingDays, EDIT_TYPE_SL, EDIT_TYPE_S, EDIT_TYPE_L, EDIT_TYPE_SPECIFIC} from './common'
 
 export default class Api {
 
   constructUrl(action, apikey, params = {}) {
-    let url = common.apiurl
+    let url = ApiUrl
     url += encodeURIComponent(action)
     url += '?'
     url += 'api_key=' + encodeURIComponent(apikey)
@@ -64,10 +64,10 @@ export default class Api {
       'calendar',
       state.apikey,
       {
-        hours: common.durationOfWorkDay,
-        week: state.editType === common.EDIT_TYPE_SL ? '' : (state.editType === common.EDIT_TYPE_S || state.editType === common.EDIT_TYPE_L ? state.editType : false),
-        timestamp: !state.editMode || state.editType === common.EDIT_TYPE_SPECIFIC ? state.week.unix() : 0,
-        //onlybase: state.editMode && state.editType !== common.EDIT_TYPE_SPECIFIC ? 'true' : 'false'
+        hours: DurationOfWorkDay,
+        week: state.editType === EDIT_TYPE_SL ? '' : (state.editType === EDIT_TYPE_S || state.editType === EDIT_TYPE_L ? state.editType : false),
+        timestamp: !state.editMode || state.editType === EDIT_TYPE_SPECIFIC ? state.week.unix() : 0,
+        //onlybase: state.editMode && state.editType !== EDIT_TYPE_SPECIFIC ? 'true' : 'false'
         onlymycalendar: state.editMode
       }
     )
@@ -80,15 +80,15 @@ export default class Api {
   updateAction(state, day, hour, action, comment = '', successCallback, failCallback) {
     const dayOfWeek = state.week.day()
     const firstDayOfWeek = state.week.subtract(dayOfWeek - 1, 'days').hours(0).minutes(0).seconds(0)
-    const specificDay = firstDayOfWeek.add(common.workingDays.indexOf(day), 'days')
-    // console.log('indexOf: ' + common.workingDays.indexOf(day) + ' specificDay: ' + specificDay.format())
+    const specificDay = firstDayOfWeek.add(WorkingDays.indexOf(day), 'days')
+    // console.log('indexOf: ' + WorkingDays.indexOf(day) + ' specificDay: ' + specificDay.format())
 
     const url = this.constructUrl(
       'calendar-update',
       state.apikey,
       {
         week: state.editType,
-        day: state.editType === common.EDIT_TYPE_SPECIFIC ? specificDay.unix() : day,
+        day: state.editType === EDIT_TYPE_SPECIFIC ? specificDay.unix() : day,
         hour: hour,
         state: action,
         comment: comment

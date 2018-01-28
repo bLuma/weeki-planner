@@ -1,6 +1,6 @@
 import React, { Component }  from 'react'
 import DayGroup from './DayGroup'
-import * as common from './common'
+import {WorkingDays} from './common'
 
 export class TableHeaderWithHours extends Component {
 
@@ -20,6 +20,7 @@ export class TableHeaderWithHours extends Component {
 
 
 export default class Table extends Component {
+  
   aggregateUserDataForDay(day) {
     return this.props.appState.data.reduce((result, userObject) => {
       result[userObject.user] = userObject.data[day]
@@ -28,7 +29,7 @@ export default class Table extends Component {
   }
 
   render() {
-    const days = common.workingDays.map(day => (
+    const days = WorkingDays.map(day => (
         <DayGroup key={day} day={day} users={this.aggregateUserDataForDay(day)} appState={this.props.appState}/>
     ))
 

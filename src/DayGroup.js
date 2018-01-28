@@ -1,15 +1,11 @@
 import React, { Component }  from 'react'
-import * as common from './common'
+import {EmptySet, BaseHour, LocalDayNames, IconForState, EDIT_TYPE_SPECIFIC} from './common'
 import 'moment/locale/cs'
 import IconButton from 'material-ui/IconButton'
 import CommentOIcon from 'mui-icons/fontawesome/comment-o'
 import CommentingOIcon from 'mui-icons/fontawesome/commenting-o'
 import CheckCircleIcon from 'mui-icons/fontawesome/check-circle'
 import CircleIcon from 'mui-icons/fontawesome/circle'
-import CircleOIcon from 'mui-icons/fontawesome/circle-o'
-import CheckIcon from 'mui-icons/fontawesome/check'
-import TimesIcon from 'mui-icons/fontawesome/times'
-import QuestionIcon from 'mui-icons/fontawesome/question'
 
 // props = {fn click, user, hour, state}
 export class UserTableCell extends Component {
@@ -60,7 +56,7 @@ export class UserTableCell extends Component {
 
     isEditable() {
       return this.props.editable && this.props.appState.editMode &&
-        (this.props.appState.editType !== common.EDIT_TYPE_SPECIFIC || (this.props.state.type === "custom" || this.props.appState.action !== "unset"))
+        (this.props.appState.editType !== EDIT_TYPE_SPECIFIC || (this.props.state.type === "custom" || this.props.appState.action !== "unset"))
     }
 
     render() {
@@ -81,13 +77,13 @@ export class UserTableCell extends Component {
       // free: 'check',
       // occupied: 'times',
       // maybe: 'question',
-      let stateIcon = undefined
-      switch (visibleState) {
-        case 'unset': stateIcon = <CircleOIcon />; break
-        case 'free': stateIcon = <CheckIcon />; break
-        case 'occupied': stateIcon = <TimesIcon />; break
-        case 'maybe': stateIcon = <QuestionIcon />; break
-      }
+      const stateIcon = IconForState[visibleState]
+      // switch (visibleState) {
+      //   case 'unset': stateIcon = <CircleOIcon />; break
+      //   case 'free': stateIcon = <CheckIcon />; break
+      //   case 'occupied': stateIcon = <TimesIcon />; break
+      //   case 'maybe': stateIcon = <QuestionIcon />; break
+      // }
 
       const ibiconstyle = {width: 13, height: 13}
       const ibstyle = {width: 15, height: 15, padding: 2}
@@ -161,9 +157,9 @@ export class UserTableCell extends Component {
 export class UserTableRow extends Component {
   render() {
     const editable = this.props.user === this.props.appState.user
-    const data = Array.from(this.props.data) || common.emptySet.slice()
+    const data = Array.from(this.props.data) || EmptySet.slice()
     const cells = data.map((state, idx) => (
-      <UserTableCell key={idx} user={this.props.user} day={this.props.day} hour={common.baseHour + idx} editable={editable} state={state} appState={this.props.appState}/>
+      <UserTableCell key={idx} user={this.props.user} day={this.props.day} hour={BaseHour + idx} editable={editable} state={state} appState={this.props.appState}/>
     ))
 
     return (
@@ -187,9 +183,9 @@ export default class DayGroup extends Component {
 
     return (
       <tbody>
-        <tr><th rowSpan={userRowsCount+1} className="paddingth">{common.localDayNames[this.props.day]}</th></tr>
+        <tr><th rowSpan={userRowsCount+1} className="paddingth">{LocalDayNames[this.props.day]}</th></tr>
         {userRows}
-        <tr><td colSpan={common.emptySet.length+2}></td></tr>
+        <tr><td colSpan={EmptySet.length+2}></td></tr>
       </tbody>
     )
   }

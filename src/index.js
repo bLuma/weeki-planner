@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import AppRouter from './AppRouter'
 import moment from 'moment'
-import {momentLocale} from './common'
+import {MomentLocale} from './common'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import areIntlLocalesSupported from 'intl-locales-supported'
@@ -14,15 +14,15 @@ let DateTimeFormat;
 /**
  * Use the native Intl.DateTimeFormat if available, or a polyfill if not.
  */
-if (areIntlLocalesSupported([momentLocale])) {
+if (areIntlLocalesSupported([MomentLocale])) {
   DateTimeFormat = global.Intl.DateTimeFormat;
 } else {
   const IntlPolyfill = require('intl');
   DateTimeFormat = IntlPolyfill.DateTimeFormat;
-  require('intl/locale-data/jsonp/' + momentLocale);
+  require('intl/locale-data/jsonp/' + MomentLocale);
 }
 
-moment.locale(momentLocale)
+moment.locale(MomentLocale)
 
 ///////////////////////////////////////////////////////////////////////////////
 
