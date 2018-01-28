@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import moment from 'moment'
-import 'react-datepicker/dist/react-datepicker.css'
 import {MomentLocale, IconForState, EDIT_TYPE_TURN_ON, EDIT_TYPE_TURN_OFF, EDIT_TYPE_SL, EDIT_TYPE_S, EDIT_TYPE_L, EDIT_TYPE_SPECIFIC} from './common'
-import {Button, ButtonFA} from './Button'
+import {Button, ButtonFI} from './Button'
 import {Toolbar, ToolbarGroup, ToolbarSeparator/*, ToolbarTitle*/} from 'material-ui/Toolbar'
 import DatePicker from 'material-ui/DatePicker'
 
-export default class ControlPanel extends Component {
+class ControlPanel extends Component {
   constructor(props) {
     super(props)
 
@@ -61,10 +61,10 @@ export default class ControlPanel extends Component {
           {this.props.appState.editMode && (
             <ToolbarGroup>
               <ToolbarSeparator />
-              <ButtonFA content={IconForState["unset"]} action="unset" {...actionButtonProps}/>
-              <ButtonFA content={IconForState["free"]} action="free" {...actionButtonProps}/>
-              <ButtonFA content={IconForState["occupied"]} action="occupied" {...actionButtonProps}/>
-              <ButtonFA content={IconForState["maybe"]} action="maybe" {...actionButtonProps}/>
+              <ButtonFI content={IconForState["unset"]} action="unset" {...actionButtonProps}/>
+              <ButtonFI content={IconForState["free"]} action="free" {...actionButtonProps}/>
+              <ButtonFI content={IconForState["occupied"]} action="occupied" {...actionButtonProps}/>
+              <ButtonFI content={IconForState["maybe"]} action="maybe" {...actionButtonProps}/>
             </ToolbarGroup>
           )}
         </Toolbar>
@@ -72,3 +72,9 @@ export default class ControlPanel extends Component {
     )
   }
 }
+
+ControlPanel.propTypes = {
+  appState: PropTypes.object.isRequired
+}
+
+export default ControlPanel

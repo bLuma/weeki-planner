@@ -1,7 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import App from './App'
 import Login from './Login'
-import PropTypes from 'prop-types'
 import Api from './api'
 import CircularProgress from 'material-ui/CircularProgress'
 
@@ -64,9 +64,9 @@ class AppRouter extends React.PureComponent {
 }
 
 AppRouter.propTypes = {
-  setCachedCredentials: PropTypes.func,
-  getCachedCredentials: PropTypes.func,
-  dateTimeFormat: PropTypes.func
+  setCachedCredentials: PropTypes.func.isRequired,
+  getCachedCredentials: PropTypes.func.isRequired,
+  dateTimeFormat: PropTypes.func.isRequired
 }
 
 export default AppRouter;

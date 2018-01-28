@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import Api from './api';
 import CircularProgress from 'material-ui/CircularProgress'
 import TextField from 'material-ui/TextField'
@@ -78,6 +79,10 @@ class Login extends React.PureComponent {
       </div>
     )
   }
+}
+
+Login.propTypes = {
+  setUserCallback: PropTypes.func.isRequired
 }
 
 export default Login

@@ -20,11 +20,10 @@ export class Button extends Component {
   }
 }
 
-export const ButtonFA = (props) => (
+export const ButtonFI = (props) => (
   <Button {...props}>
     <FontIcon style={FIStyle}>
       {props.content}
     </FontIcon>
-    {/* <FontAwesome name={props.content}/> */}
   </Button>
 )

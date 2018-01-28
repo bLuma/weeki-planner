@@ -1,25 +1,10 @@
 import React, { Component }  from 'react'
-import DayGroup from './DayGroup'
-import {WorkingDays} from './common'
+import PropTypes from 'prop-types'
+import DayGroup from './TableBody/DayGroup'
+import {WorkingDays} from '../common'
+import TableHeaderWithHours from './TableHeaderWithHours'
 
-export class TableHeaderWithHours extends Component {
-
-  render() {
-    const ths = this.props.hours.map(hour => (
-      <th key={hour}>{hour}&ndash;{hour + 1}</th>
-    ))
-
-    return (
-      <tr>
-        <td colSpan="2"></td>
-        {ths}
-      </tr>
-    );
-  }
-}
-
-
-export default class Table extends Component {
+class Table extends Component {
   
   aggregateUserDataForDay(day) {
     return this.props.appState.data.reduce((result, userObject) => {
@@ -43,3 +28,9 @@ export default class Table extends Component {
     )
   }
 }
+
+Table.propTypes = {
+  appState: PropTypes.object.isRequired
+}
+
+export default Table

@@ -1,5 +1,6 @@
 import React, { Component }  from 'react'
-import {EmptySet, BaseHour, LocalDayNames, IconForState, EDIT_TYPE_SPECIFIC} from './common'
+import PropTypes from 'prop-types'
+import {IconForState, EDIT_TYPE_SPECIFIC} from '../../common'
 import 'moment/locale/cs'
 import IconButton from 'material-ui/IconButton'
 import CommentOIcon from 'mui-icons/fontawesome/comment-o'
@@ -8,7 +9,7 @@ import CheckCircleIcon from 'mui-icons/fontawesome/check-circle'
 import CircleIcon from 'mui-icons/fontawesome/circle'
 
 // props = {fn click, user, hour, state}
-export class UserTableCell extends Component {
+class UserTableCell extends Component {
 
     constructor(props) {
       super(props)
@@ -151,43 +152,13 @@ export class UserTableCell extends Component {
     }
 }
 
-
-
-// props = {user, day, data[...,...,...]}
-export class UserTableRow extends Component {
-  render() {
-    const editable = this.props.user === this.props.appState.user
-    const data = Array.from(this.props.data) || EmptySet.slice()
-    const cells = data.map((state, idx) => (
-      <UserTableCell key={idx} user={this.props.user} day={this.props.day} hour={BaseHour + idx} editable={editable} state={state} appState={this.props.appState}/>
-    ))
-
-    return (
-      <tr>
-        <th className="paddingth">{this.props.user}</th>
-        {cells}
-      </tr>
-    )
-  }
+UserTableCell.propTypes = {
+  user: PropTypes.string.isRequired,
+  day: PropTypes.string.isRequired,
+  hour: PropTypes.number.isRequired,
+  editable: PropTypes.bool.isRequired,
+  state: PropTypes.object.isRequired,
+  appState: PropTypes.object.isRequired
 }
 
-
-
-export default class DayGroup extends Component {
-  render() {
-    const users = Object.keys(this.props.users)
-    const userRowsCount = users.length
-    const userRows = users.map(user => (
-      <UserTableRow key={user} user={user} day={this.props.day} data={this.props.users[user]} appState={this.props.appState}/>
-    ))
-
-    return (
-      <tbody>
-        <tr><th rowSpan={userRowsCount+1} className="paddingth">{LocalDayNames[this.props.day]}</th></tr>
-        {userRows}
-        <tr><td colSpan={EmptySet.length+2}></td></tr>
-      </tbody>
-    )
-  }
-}
-
+export default UserTableCell

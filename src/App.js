@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import {WorkingHours, EmptySet, BaseHour, EDIT_TYPE_SL, EDIT_TYPE_TURN_OFF, EDIT_TYPE_TURN_ON, EDIT_TYPE_SPECIFIC} from './common'
-import Table from './Table'
+import Table from './Table/Table'
 import ControlPanel from './ControlPanel'
 import moment from 'moment'
 import Api from './api'
@@ -212,6 +213,12 @@ class App extends Component {
       </div>
     );
   }
+}
+
+App.propTypes = {
+  user: PropTypes.string.isRequired,
+  apikey: PropTypes.string.isRequired,
+  dateTimeFormat: PropTypes.func.isRequired
 }
 
 export default App;
