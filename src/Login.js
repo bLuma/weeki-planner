@@ -65,10 +65,12 @@ class Login extends React.PureComponent {
         />
         
         <RaisedButton
-          label={this.state.showSpinner ? <CircularProgress /> : "Login"}
+          label={this.state.showSpinner ? '' : "Login"}
           primary={true}
           onClick={this.onSubmit}
-        />
+        >
+          {this.state.showSpinner && <CircularProgress color='red' size={25} style={{transform:'translate(0,20%)'}}/>}
+        </RaisedButton>
 
         <Snackbar
           open={this.state.failedLogin}
