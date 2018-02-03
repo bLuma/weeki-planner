@@ -55,7 +55,7 @@ class ControlPanel extends Component {
               onChange={this.onChangeDate}
               value={this.state.date.toDate()}
               hintText='Výběr data'
-              textFieldStyle={{width:'12ex',marginLeft:'1ex'}}
+              textFieldStyle={{ width: '12ex', marginLeft: '1ex' }}
             />
           </ToolbarGroup>
           {this.props.appState.editMode && (

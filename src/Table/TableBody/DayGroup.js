@@ -1,6 +1,6 @@
 import React, { Component }  from 'react'
 import PropTypes from 'prop-types'
-import {EmptySet, LocalDayNames} from '../../common'
+import { EmptySet, LocalDayNames } from '../../common'
 import UserTableRow from './UserTableRow'
 
 class DayGroup extends Component {
@@ -13,9 +13,13 @@ class DayGroup extends Component {
 
     return (
       <tbody>
-        <tr><th rowSpan={userRowsCount+1} className="paddingth">{LocalDayNames[this.props.day]}</th></tr>
+        <tr>
+          <th rowSpan={userRowsCount + 1} className="paddingth">{LocalDayNames[this.props.day]}</th>
+        </tr>
         {userRows}
-        <tr><td colSpan={EmptySet.length+2}></td></tr>
+        <tr>
+          <td colSpan={EmptySet.length + 2}></td>
+        </tr>
       </tbody>
     )
   }

@@ -1,11 +1,3 @@
-html,
-body {
-  /* margin: 0;
-  padding: 0;*/
-  /* display: flex;
-  justify-content: center;  */
-}
-
 .App {
   text-align: center;
   max-width: 880px;  
@@ -23,13 +15,6 @@ td,
 th {
   border: 1px solid black;
 }
-
-/* tbody::after {
-  content: '';
-  display:table-row;
-  background: white;
-  height: 3px;
-} */
 
 th {
   width: 3em;
@@ -67,19 +52,6 @@ th {
   background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(255, 0, 0, .5) 5px, rgba(255, 0, 0, .5) 10px);
 }
 
-.highlight {
-  font-weight: bold;
-  text-shadow: black 0 0 1ex;
-  color: white;
-}
-
-#controlPanel {
-  /* line-height: 3em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between; */
-}
-
 .flexflow {
   display: flex;
   align-items: center;
@@ -89,42 +61,8 @@ th {
   justify-content: space-around;
 }
 
-#datepicker {
-  margin-left: 1ex;
-}
-
-.button {
-  /* display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 10ex;
-  border: 1px solid black;
-  border-radius: 1ex;
-  height: 2em;
-  margin: 0.2ex;
-  cursor: pointer; */
-}
-
-.button.smallerButton {
-  /* background-color: gray; */
-  /* width: 6ex; */
-}
-
-.button:hover,
-#datepicker:hover {
-  box-shadow: 0 0 4px black;
-}
-
-#datepicker:hover:disabled {
-  box-shadow: none;
-}
-
 .editable {
   cursor: pointer;
-}
-
-.pencilClass:hover {
-  color: white !important;
 }
 
 .invisible {
@@ -150,7 +88,6 @@ background-color: gray;
 background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.5) 35px, rgba(255,255,255,.5) 70px);
 */
 
-
 .loginform {
   display: flex;
   flex-direction: column;
@@ -158,48 +95,4 @@ background-image: repeating-linear-gradient(45deg, transparent, transparent 35px
   max-width: 256px;  
   margin-left: auto;
   margin-right: auto;
-  /* margin: 1em;
-  padding: 3em;
-  background: #eee;
-  border-radius: 1ex; */
-}
-
-/* .loginform {
-  display: flex;
-  flex-direction: column;
-  margin: 1em;
-  padding: 3em;
-  background: #eee;
-  border-radius: 1ex;
-}
-
-.loginform input {
-  margin: 1ex;
-  width: 20em;
-}
-
-.loginform .button {
-  margin-top: 2em;
-} */
-
-#failedlogin {
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
-  opacity: 0;
-  visibility: hidden;
-  color: black;
-}
-
-#failedlogin.show {
-  opacity: 1;
-  visibility: visible;
-  color: red;
-}
-
-.button-login {
-  background: #333;
-  color: white;
-  align-self: flex-end;
 }

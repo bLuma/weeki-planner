@@ -32,9 +32,9 @@ export const IconForState = {
   maybe: <QuestionIcon />,
 }
 
-export const IBIconStyle = {width: 13, height: 13}
-export const IBStyle = {width: 15, height: 15, padding: 2}
-export const FIStyle = {transform:'scale(0.8) translate(0, 10%)'}
+export const IBIconStyle = { width: 13, height: 13 }
+export const IBStyle = { width: 15, height: 15, padding: 2 }
+export const FIStyle = { transform:'scale(0.8) translate(0, 10%)' }
 
 export const EDIT_TYPE_SL = 'eo'
 export const EDIT_TYPE_S = 'e'

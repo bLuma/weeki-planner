@@ -9,6 +9,7 @@ import Snackbar from 'material-ui/Snackbar'
 class Login extends React.PureComponent {
   constructor(props) {
     super(props)
+
     this.state = { 
       failedLogin: false, 
       showSpinner: false, 
@@ -55,13 +56,16 @@ class Login extends React.PureComponent {
           autoFocus='true'
           hintText='Login'
           floatingLabelText='Login'
-          onChange={(e)=>this.setState({login:e.target.value})}
+          onChange={(e) => this.setState({ login: e.target.value })}
+          onKeyPress={this.onKeyPress}
         />
+
         <TextField
           hintText='Heslo'
           floatingLabelText='Heslo'
           type='password'
-          onChange={(e)=>this.setState({password:e.target.value})}
+          onChange={(e) => this.setState({ password: e.target.value })}
+          onKeyPress={this.onKeyPress}
         />
         
         <RaisedButton
@@ -69,7 +73,7 @@ class Login extends React.PureComponent {
           primary={true}
           onClick={this.onSubmit}
         >
-          {this.state.showSpinner && <CircularProgress color='red' size={25} style={{transform:'translate(0,20%)'}}/>}
+          {this.state.showSpinner && <CircularProgress color='red' size={25} style={{ transform: 'translate(0,20%)' }}/>}
         </RaisedButton>
 
         <Snackbar

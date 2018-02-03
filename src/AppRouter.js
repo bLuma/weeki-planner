@@ -33,7 +33,7 @@ class AppRouter extends React.PureComponent {
   }
   
   handleValidationFail() {
-    this.setState({validating: false})
+    this.setState({ validating: false })
     //console.log('failed validation')
   }
 

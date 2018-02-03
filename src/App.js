@@ -129,12 +129,14 @@ class App extends Component {
         }
       }
 
-      this.api.updateAction(state, day, hourIndex, state.action, '', () => {
-        console.log('sucess update action')
-      }, () => {
-        console.log('failed update action')
-        this.onUpdateActionCallback(day, hourIndex, oldSlotState)
-      })
+      this.api.updateAction(state, day, hourIndex, state.action, '',
+        () => { 
+          console.log('sucess update action')
+        }, 
+        () => {
+          console.log('failed update action')
+          this.onUpdateActionCallback(day, hourIndex, oldSlotState)
+        })
 
       return state
     })
@@ -184,14 +186,14 @@ class App extends Component {
 
   render() {
     const appState = {
-      data: this.state.data,
-      action: this.state.action,
       hours: WorkingHours,
+      dateTimeFormat: this.props.dateTimeFormat,
+      action: this.state.action,
+      data: this.state.data,
       editMode: this.state.editMode,
       editType: this.state.editType,
       user: this.state.user,
       week: this.state.week,
-      dateTimeFormat: this.props.dateTimeFormat,
       onSelectedAction: this.onSelectedAction,
       onSelectedWeek: this.onSelectedWeek,
       onTableClick: this.onTableClick,

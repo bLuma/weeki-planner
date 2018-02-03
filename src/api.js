@@ -20,19 +20,17 @@ export default class Api {
       {}
     )
 
-    fetch(url).then(
-      response => response.json()
-    ).then(
-      response => {
+    fetch(url)
+      .then(response => response.json())
+      .then(response => {
         if (!response.status || response.status !== 'success') {
-          //console.log(response)
           failCallback()
           return
         }
           
         successCallback(response.username, apikey)
-      }
-    ).catch(failCallback)
+      })
+      .catch(failCallback)
   }
 
   login(username, password, successCallback, failCallback) {
@@ -45,18 +43,17 @@ export default class Api {
       }
     )
 
-    fetch(url).then(
-      response => response.json()
-    ).then(
-      response => {
+    fetch(url)
+      .then(response => response.json())
+      .then(response => {
         if (!response.status || response.status !== 'success') {
           failCallback()
           return
         }
           
         successCallback(username, response.api_key)
-      }
-    ).catch(failCallback)
+      })
+      .catch(failCallback)
   }
 
   getCalendar(state, successCallback, failCallback) {
@@ -72,9 +69,10 @@ export default class Api {
       }
     )
 
-    fetch(url).then(
-      response => response.json()
-    ).then(successCallback).catch(failCallback)
+    fetch(url)
+      .then(response => response.json())
+      .then(successCallback)
+      .catch(failCallback)
   }
 
   updateAction(state, day, hour, action, comment = '', successCallback, failCallback) {
@@ -95,6 +93,9 @@ export default class Api {
       }
     )
 
-    fetch(url).then(response => response.json()).then(successCallback).catch(failCallback)
+    fetch(url)
+      .then(response => response.json())
+      .then(successCallback)
+      .catch(failCallback)
   }
 }
